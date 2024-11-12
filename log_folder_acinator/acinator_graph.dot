@@ -1,15 +1,39 @@
 digraph list
 {
 rankdir=HR;
-	6618832 [shape=record, label = " data = 40| {left = 0064FEE8| right = 0064FEC4}"];
-	6618856 [shape=record, label = " data = 20| {left = 0064FEF4| right = 0064FEDC}"];
-	6618832 -> 6618856
-	6618868 [shape=record, label = " data = 10| {left = 00000000| right = 00000000}"];
-	6618856 -> 6618868
-	6618844 [shape=record, label = " data = 30| {left = 00000000| right = 00000000}"];
-	6618856 -> 6618844
-	6618820 [shape=record, label = " data = 50| {left = 00000000| right = 0064FEB8}"];
-	6618832 -> 6618820
-	6618808 [shape=record, label = " data = 60| {left = 00000000| right = 00000000}"];
-	6618820 -> 6618808
+	14554552 [shape="rectangle", style="rounded", color="blue", label = " data = 40
+ left = 00DE15A0
+ right = 00DE15D0"];
+	14554528 [shape="rectangle", style="rounded", color="blue", label = " data = 30
+ left = 00DE1550
+ right = 00DE1600"];
+	14554552 -> 14554528 [color="blue"]
+	14554448 [shape="rectangle", style="rounded", color="blue", label = " data = 10
+ left = 00000000
+ right = 00DE1588"];
+	14554528 -> 14554448 [color="blue"]
+	14554504 [shape="rectangle", style="rounded", color="blue", label = " data = 20
+ left = 00000000
+ right = 00000000"];
+	14554448 -> 14554504 [color="blue"]
+	14554624 [shape="rectangle", style="rounded", color="blue", label = " data = 35
+ left = 00000000
+ right = 00000000"];
+	14554528 -> 14554624 [color="blue"]
+	14554576 [shape="rectangle", style="rounded", color="blue", label = " data = 50
+ left = 00000000
+ right = 00DE15E8"];
+	14554552 -> 14554576 [color="blue"]
+	14554600 [shape="rectangle", style="rounded", color="blue", label = " data = 60
+ left = 00DE1630
+ right = 00DE1618"];
+	14554576 -> 14554600 [color="blue"]
+	14554672 [shape="rectangle", style="rounded", color="blue", label = " data = 55
+ left = 00000000
+ right = 00000000"];
+	14554600 -> 14554672 [color="blue"]
+	14554648 [shape="rectangle", style="rounded", color="blue", label = " data = 355
+ left = 00000000
+ right = 00000000"];
+	14554600 -> 14554648 [color="blue"]
 	}

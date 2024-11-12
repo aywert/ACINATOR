@@ -1,23 +1,58 @@
 #include"acinator_functions.h"
 
-int ctor_node(node_t* node_ptr, int value)
+node_t* ctor_node(int value)
 {
-    assert(node_ptr);
+    node_t* tempor_ptr_node = (node_t*)calloc(sizeof(node_t), 1);
 
-    node_ptr->data  = value;
-   
-    node_ptr->right = 0;
-    node_ptr->left  = 0;  
+    tempor_ptr_node->data  = value;
+    tempor_ptr_node->right = 0;
+    tempor_ptr_node->left  = 0;  
 
-    return 0; 
+    return tempor_ptr_node; 
+}
+
+int attach_node(node_t* root, node_t* node_ptr)
+{
+    if (compare_tree_value(root, node_ptr->data) > 0)
+    {
+        if (root->left == 0)
+            root->left = node_ptr;
+        else
+        attach_node(root->left, node_ptr);
+
+        return 0;
+    }
+
+    printf("root->data = %d\n", root->data);
+
+    if (compare_tree_value(root, node_ptr->data) < 0)
+    {
+        if (root->right == 0)
+            root->right = node_ptr;
+        else
+        attach_node(root->right, node_ptr);
+        return 0;
+    }
+
+    if (compare_tree_value(root, node_ptr->data) == 0)
+    {
+        printf("same-value-node already exist\n");
+        return 0;
+    }
+
+    return 0;
+}
+
+int compare_tree_value(node_t* root, int value)
+{
+    return root->data - value;
 }
 
 int dtor_node(node_t* node_ptr)
 {
     assert(node_ptr);
-    printf("dead here\n");
-    free(node_ptr);
-    printf("dead here2");
+    free(node_ptr); 
+    node_ptr = NULL;
     return 0; 
 }
 
@@ -54,11 +89,11 @@ int print_node_graph(node_t* node_ptr, char argv[])
 int generate_graph(node_t* node_ptr, FILE* file)
 {
     static int label = 0;
-    printf("label = %d\n", label);
-    fprintf(file, "%d [shape=record, label = \" data = %d| {left = %p| right = %p}\"];\n\t", (int)&node_ptr->data, node_ptr->data, node_ptr->left, node_ptr->right);
+    
+    fprintf(file, "%d [shape=\"rectangle\", style=\"rounded\", color=\"blue\", label = \" data = %d\n left = %p\n right = %p\"];\n\t", (int)&node_ptr->data, node_ptr->data, node_ptr->left, node_ptr->right);
     if (label != 0)
     {
-        fprintf(file, "%d -> %d\n\t", label, (int)&node_ptr->data);
+        fprintf(file, "%d -> %d [color=\"blue\"]\n\t", label, (int)&node_ptr->data);
     }
 
     if (node_ptr->left)
@@ -66,13 +101,12 @@ int generate_graph(node_t* node_ptr, FILE* file)
         label = (int)&node_ptr->data;
         generate_graph(node_ptr->left, file);
     }
-    //else fprintf(file, "()");
 
     if (node_ptr->right) 
     {
         label = (int)&node_ptr->data;
         generate_graph(node_ptr->right, file);
     }
-    //else printf("()");
+
     return 0;
 }
