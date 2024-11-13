@@ -1,31 +1,31 @@
 digraph list
 {
 rankdir=HR;
-	13374856 [shape="rectangle", style="rounded", color="blue", label = " Living?
- left = 00CC15E8
- right = 00CC15B8"];
-	13374952 [shape="rectangle", style="rounded", color="blue", label = " KPM?
- left = 00CC1648
- right = 00CC1618"];
-	13374856 -> 13374952 [color="blue"]
-	13375048 [shape="rectangle", style="rounded", color="blue", label = " Phystech Bio
+	8590728 [shape="rectangle", style="rounded", color="blue", label = " Living?
+ left = 008315E8
+ right = 008315B8"];
+	8590824 [shape="rectangle", style="rounded", color="blue", label = " KPM?
+ left = 00831648
+ right = 00831618"];
+	8590728 -> 8590824 [color="blue"]
+	8590920 [shape="rectangle", style="rounded", color="blue", label = " Phystech Bio
  left = 00000000
  right = 00000000"];
-	13374952 -> 13375048 [color="blue"]
-	13375000 [shape="rectangle", style="rounded", color="blue", label = " you won
+	8590824 -> 8590920 [color="blue"]
+	8590872 [shape="rectangle", style="rounded", color="blue", label = " you won
  left = 00000000
  right = 00000000"];
-	13374952 -> 13375000 [color="blue"]
-	13374904 [shape="rectangle", style="rounded", color="blue", label = " Human being?
- left = 00CC16A8
- right = 00CC1678"];
-	13374856 -> 13374904 [color="blue"]
-	13375144 [shape="rectangle", style="rounded", color="blue", label = " Poltorashka?
+	8590824 -> 8590872 [color="blue"]
+	8590776 [shape="rectangle", style="rounded", color="blue", label = " Human being?
+ left = 008316A8
+ right = 00831678"];
+	8590728 -> 8590776 [color="blue"]
+	8591016 [shape="rectangle", style="rounded", color="blue", label = " Poltorashka?
  left = 00000000
  right = 00000000"];
-	13374904 -> 13375144 [color="blue"]
-	13375096 [shape="rectangle", style="rounded", color="blue", label = " DED?
+	8590776 -> 8591016 [color="blue"]
+	8590968 [shape="rectangle", style="rounded", color="blue", label = " DED?
  left = 00000000
  right = 00000000"];
-	13374904 -> 13375096 [color="blue"]
+	8590776 -> 8590968 [color="blue"]
 	}

@@ -16,15 +16,15 @@ int main(int argc, char* argv[])
     str_node_t* node_4 = str_ctor_node(string_4);
     const char* string_5 = "Poltorashka?";
     str_node_t* node_5 = str_ctor_node(string_5);
-    play_acinator(node_1);
-
+    
     node_1->right = node_2;
     node_2->right = node_4;
     node_2->left  = node_5; 
     node_1->left  = node_3;
-    node_3->right  = node_6; 
+    node_3->right = node_6; 
     node_3->left  = node_7; 
 
+    play_acinator(node_1);
     print_node_graph(node_1, argv[argc-1]);
     return 0;
 }
