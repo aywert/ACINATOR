@@ -1,23 +1,23 @@
 #ifndef ACINATOR
 #define ACINATOR
-
 #include"stdio.h"
 #include"stdlib.h"
 #include"assert.h"
+#include"D:\STUDYC\My_labraries\colours.h"
 
-struct node_t
+const int acinator_str = 30;
+
+struct str_node_t
 {
-    int data;
-    node_t* left;
-    node_t* right;
+    char data[acinator_str];
+    str_node_t* left;
+    str_node_t* right;
 };
 
-node_t* ctor_node(int value);
-int attach_node(node_t* root, node_t* node);
-int compare_tree_value(node_t* root, int value);
-int node_dump(node_t* node_ptr);
-int print_node_graph(node_t* node_ptr, char argv[]);
-int generate_graph(node_t* node_ptr, FILE* file);
-int dtor_node(node_t* node_ptr);
+int play_acinator(str_node_t*);
+int print_node_graph(str_node_t* node_ptr, char argv[]);
+int generate_graph(str_node_t* node_ptr, FILE* file);
+str_node_t* str_ctor_node(const char* string);
+int dtor_node(str_node_t* node_ptr);
 
 #endif
