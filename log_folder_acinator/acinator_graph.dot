@@ -1,31 +1,63 @@
 digraph list
 {
 rankdir=HR;
-	8590728 [shape="rectangle", style="rounded", color="blue", label = " Living?
- left = 008315E8
- right = 008315B8"];
-	8590824 [shape="rectangle", style="rounded", color="blue", label = " KPM?
- left = 00831648
- right = 00831618"];
-	8590728 -> 8590824 [color="blue"]
-	8590920 [shape="rectangle", style="rounded", color="blue", label = " Phystech Bio
+	13440484 [shape="rectangle", style="rounded", color="blue", label = " animal?
+ left = 00CD1618
+ right = 00CD17A0"];
+	13440540 [shape="rectangle", style="rounded", color="blue", label = " Human?
+ left = 00CD1650
+ right = 00CD16F8"];
+	13440484 -> 13440540 [color="blue"]
+	13440596 [shape="rectangle", style="rounded", color="blue", label = " Study Physics?
+ left = 00CD1688
+ right = 00CD16C0"];
+	13440540 -> 13440596 [color="blue"]
+	13440652 [shape="rectangle", style="rounded", color="blue", label = " Ded?
  left = 00000000
  right = 00000000"];
-	8590824 -> 8590920 [color="blue"]
-	8590872 [shape="rectangle", style="rounded", color="blue", label = " you won
+	13440596 -> 13440652 [color="blue"]
+	13440708 [shape="rectangle", style="rounded", color="blue", label = " Ovchinkin?
  left = 00000000
  right = 00000000"];
-	8590824 -> 8590872 [color="blue"]
-	8590776 [shape="rectangle", style="rounded", color="blue", label = " Human being?
- left = 008316A8
- right = 00831678"];
-	8590728 -> 8590776 [color="blue"]
-	8591016 [shape="rectangle", style="rounded", color="blue", label = " Poltorashka?
+	13440596 -> 13440708 [color="blue"]
+	13440764 [shape="rectangle", style="rounded", color="blue", label = " Phystech Student?
+ left = 00CD1730
+ right = 00CD1768"];
+	13440540 -> 13440764 [color="blue"]
+	13440820 [shape="rectangle", style="rounded", color="blue", label = " Dobrynya Nikitich?
  left = 00000000
  right = 00000000"];
-	8590776 -> 8591016 [color="blue"]
-	8590968 [shape="rectangle", style="rounded", color="blue", label = " DED?
+	13440764 -> 13440820 [color="blue"]
+	13440876 [shape="rectangle", style="rounded", color="blue", label = " Michael Aywert?
  left = 00000000
  right = 00000000"];
-	8590776 -> 8590968 [color="blue"]
+	13440764 -> 13440876 [color="blue"]
+	13440932 [shape="rectangle", style="rounded", color="blue", label = " Furry?
+ left = 00CD17D8
+ right = 00CD1880"];
+	13440484 -> 13440932 [color="blue"]
+	13440988 [shape="rectangle", style="rounded", color="blue", label = " Hedgehog?
+ left = 00CD1810
+ right = 00CD1848"];
+	13440932 -> 13440988 [color="blue"]
+	13441044 [shape="rectangle", style="rounded", color="blue", label = " Ironclad?
+ left = 00000000
+ right = 00000000"];
+	13440988 -> 13441044 [color="blue"]
+	13441100 [shape="rectangle", style="rounded", color="blue", label = " From the fairytail?
+ left = 00000000
+ right = 00000000"];
+	13440988 -> 13441100 [color="blue"]
+	13441156 [shape="rectangle", style="rounded", color="blue", label = " Cat?
+ left = 00CD18B8
+ right = 00CD18F0"];
+	13440932 -> 13441156 [color="blue"]
+	13441212 [shape="rectangle", style="rounded", color="blue", label = " Chipa?
+ left = 00000000
+ right = 00000000"];
+	13441156 -> 13441212 [color="blue"]
+	13441268 [shape="rectangle", style="rounded", color="blue", label = " Poltorashka?
+ left = 00000000
+ right = 00000000"];
+	13441156 -> 13441268 [color="blue"]
 	}

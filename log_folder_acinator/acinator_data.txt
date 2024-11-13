@@ -1,0 +1,45 @@
+{
+    "animal?"
+    {
+        "Human?"
+        {
+            "Study Physics?"
+            {
+                "Ded?"
+            }
+            {
+                "Ovchinkin?"
+            }
+        }
+        {
+            "Phystech Student?"
+            {
+                "Dobrynya Nikitich?"
+            }
+            {
+                "Michael Aywert?"
+            }
+        }
+    }
+    {
+        "Furry?"
+        {
+            "Hedgehog?"
+            {
+                "Ironclad?"
+            }
+            {
+                "From the fairytail?"
+            }
+        }
+        {
+            "Cat?"
+            {
+                "Chipa?"
+            }
+            {
+                "Poltorashka?"
+            }
+        }
+    }
+}

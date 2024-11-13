@@ -1,16 +1,78 @@
 #include"acinator_functions.h"
 
-str_node_t* read_acinator_data(FILE* acinator_data)
+//TODO definition
+//TODO comparison
+
+str_node_t* start_reading_acinator_data(char argv[])
 {
+    assert(argv);
+    
+    FILE* acinator_data = fopen(argv, "r");
     assert(acinator_data);
-    str_node_t* root = (str_node_t*)calloc(sizeof(str_node_t), 1);
+
+    char buffer[acinator_str] = {};
+    //"\"%[^\"]"
+    fscanf(acinator_data, "%s\n", buffer);
+    printf("buffer = %s\n", buffer);
+    fscanf(acinator_data, "\"%[^\"]\"", buffer);
+    printf("buffer = %s\n", buffer);
+    str_node_t* root = str_ctor_node(buffer);
+    read_acinator_data(acinator_data, root);
+
+    fclose(acinator_data);
     return root;
+}
+
+int read_acinator_data(FILE* file, str_node_t* prev_node)
+{
+    char buffer[acinator_str] = {};
+    int verifier = fscanf(file, "%s\n", buffer);
+    printf("buffer = %s\n", buffer);
+
+    if (verifier == EOF)
+        return 0;
+
+    if (strcmp(buffer, "{") == 0)
+    {
+        fscanf(file, "\"%[^\"]\"", buffer);
+        printf("buffer = %s\n", buffer);
+        str_node_t* root = str_ctor_node(buffer);
+
+        if (prev_node->left == 0)
+        {
+            prev_node->left = root;
+            root->parent = prev_node;
+        }
+
+        else if (prev_node->right == 0)
+        {
+            prev_node->right = root;
+            root->parent = prev_node;
+        }
+        
+        else
+        {
+            printf(RED("Error in binary tree\n"));
+            return 0;
+        }
+       
+
+        read_acinator_data(file, root);
+    }
+
+    if (strcmp(buffer, "}") == 0)
+    {
+        read_acinator_data(file, prev_node->parent);
+    }    
+
+    return 0;
 }
 
 str_node_t* str_ctor_node(const char* string)
 {
+    assert(string);
     str_node_t* tempor_ptr_node = (str_node_t*)calloc(sizeof(str_node_t), 1);
-
+    assert(tempor_ptr_node);
     for (int i = 0; i < acinator_str; i++)
     {
         tempor_ptr_node->data[i] = string[i];
@@ -32,6 +94,8 @@ int dtor_node(str_node_t* node_ptr)
 
 int print_node_graph(str_node_t* node_ptr, char argv[])
 {
+    assert(node_ptr);
+    assert(argv);
     FILE* file = fopen(argv, "w");
     fprintf(file, "digraph list\n{\nrankdir=HR;\n\t");
 
@@ -45,6 +109,8 @@ int print_node_graph(str_node_t* node_ptr, char argv[])
 
 int generate_graph(str_node_t* node_ptr, FILE* file)
 {
+    assert(node_ptr);
+    assert(file);
     static int label = 0;
     
     fprintf(file, "%d [shape=\"rectangle\", style=\"rounded\", color=\"blue\", label = \" %s\n left = %p\n right = %p\"];\n\t", (int)&node_ptr->data, node_ptr->data, node_ptr->left, node_ptr->right);
@@ -75,8 +141,9 @@ int give_definition(str_node_t* root, const char* string)
     return 0;
 }
 
-int play_acinator(str_node_t* root)
+int start_acinator(str_node_t* root)
 {
+    assert(root);
     printf(GREEN("=======================================\n"));
     printf(GREEN("ACINATOR is welcoming you!\n"));
     printf(GREEN("=======================================\n"));
@@ -95,18 +162,19 @@ int play_acinator(str_node_t* root)
         }
     } while(strcmp(buffer, "Yes") != 0);
 
-    generate_gameplay(root);
+    play_acinator(root);
 
     return 0;
 }
 
-int generate_gameplay(str_node_t* root)
+int play_acinator(str_node_t* root)
 {
+    assert(root);
     print_acinator(root->data);
     char buffer[acinator_str];
     do
     {
-        printf("Enter Yes/No: ");
+        printf("Enter Yes/No/Found: ");
         scanf("%s", &buffer[0]);
         if (strcmp(buffer, "No") == 0)
         {
@@ -115,7 +183,7 @@ int generate_gameplay(str_node_t* root)
                 print_acinator("Game is on the stage of development. See ya...");
                 return 0;
             }
-            generate_gameplay(root->left);
+            play_acinator(root->left);
             break;
         }
 
@@ -126,8 +194,14 @@ int generate_gameplay(str_node_t* root)
                 print_acinator("Game is on the stage of development. See ya...");
                 return 0;
             }
-            generate_gameplay(root->right);
+            play_acinator(root->right);
             break;
+        }
+
+        if (strcmp(buffer, "Found") == 0)
+        {
+            print_acinator("I know everything. Be afraid");
+            return 0;
         }
     } while(1);
 
@@ -136,6 +210,7 @@ int generate_gameplay(str_node_t* root)
 
 int print_acinator(const char* string)
 {
+    assert(string);
     printf("                 " RED_BKG("   ")" \n"                                                                                                     
                 "                  " RED_BKG("   ")"\n"                                                                  
                 "                  " RED_BKG("     ")"\n"                         

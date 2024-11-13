@@ -9,7 +9,7 @@ OBJFILES := main.o acinator_functions.o
 all: $(NAMEEXE)
 
 run: $(NAMEEXE)
-	.\$(NAMEEXE) log_folder_acinator//acinator_graph.dot
+	.\$(NAMEEXE) log_folder_acinator//acinator_graph.dot log_folder_acinator//acinator_data.txt
 
 $(NAMEEXE) : $(OBJFILES)
 	@g++ $(OBJFILES) -o $@ $(LFLAGS)
