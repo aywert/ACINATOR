@@ -1,45 +1,45 @@
 digraph list
 {
 rankdir=HR;
-	14489060 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ animal| parent = 00000000| left = 00DD1618| right = 00DD18F0| location = 0}"];
-	14489116 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Human| parent = 00DD15E0| left = 00DD1650| right = 00DD16F8| location = 0}"];
-	14489060 -> 14489116 [color="blue"]
-	14489172 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Study Physics| parent = 00DD1618| left = 00DD1688| right = 00DD16C0| location = 0}"];
-	14489116 -> 14489172 [color="blue"]
-	14489228 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Ded| parent = 00DD1650| left = 00000000| right = 00000000| location = 0}"];
-	14489172 -> 14489228 [color="blue"]
-	14489284 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Ovchinkin| parent = 00DD1650| left = 00000000| right = 00000000| location = 1}"];
-	14489172 -> 14489284 [color="blue"]
-	14489340 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Phystech Student| parent = 00DD1618| left = 00DD1730| right = 00DD1768| location = 1}"];
-	14489116 -> 14489340 [color="blue"]
-	14489396 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Dobrynya Nikitich| parent = 00DD16F8| left = 00000000| right = 00000000| location = 0}"];
-	14489340 -> 14489396 [color="blue"]
-	14489452 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Live with Michael| parent = 00DD16F8| left = 00DD17A0| right = 00DD17D8| location = 1}"];
-	14489340 -> 14489452 [color="blue"]
-	14489508 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Loh| parent = 00DD1768| left = 00000000| right = 00000000| location = 0}"];
-	14489452 -> 14489508 [color="blue"]
-	14489564 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Drink alcohol| parent = 00DD1768| left = 00DD1810| right = 00DD18B8| location = 1}"];
-	14489452 -> 14489564 [color="blue"]
-	14489620 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Have girlfriend| parent = 00DD17D8| left = 00DD1848| right = 00DD1880| location = 0}"];
-	14489564 -> 14489620 [color="blue"]
-	14489676 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Tolia ZOV| parent = 00DD1810| left = 00000000| right = 00000000| location = 0}"];
-	14489620 -> 14489676 [color="blue"]
-	14489732 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Saneeeeek| parent = 00DD1810| left = 00000000| right = 00000000| location = 1}"];
-	14489620 -> 14489732 [color="blue"]
-	14489788 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Sanya Lavilas| parent = 00DD17D8| left = 00000000| right = 00000000| location = 1}"];
-	14489564 -> 14489788 [color="blue"]
-	14489844 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Furry| parent = 00DD15E0| left = 00DD1928| right = 00DD7A88| location = 1}"];
-	14489060 -> 14489844 [color="blue"]
-	14489900 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Hedgehog| parent = 00DD18F0| left = 00DD4A18| right = 00DD04B0| location = 0}"];
-	14489844 -> 14489900 [color="blue"]
-	14502428 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Ironclad| parent = 00DD1928| left = 00000000| right = 00000000| location = 0}"];
-	14489900 -> 14502428 [color="blue"]
-	14484660 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ From the fairytail| parent = 00DD1928| left = 00000000| right = 00000000| location = 1}"];
-	14489900 -> 14484660 [color="blue"]
-	14514828 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Cat| parent = 00DD18F0| left = 00DD7D28| right = 00DD7B68| location = 1}"];
-	14489844 -> 14514828 [color="blue"]
-	14515500 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Chipa| parent = 00DD7A88| left = 00000000| right = 00000000| location = 0}"];
-	14514828 -> 14515500 [color="blue"]
-	14515052 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Poltorashka| parent = 00DD7A88| left = 00000000| right = 00000000| location = 1}"];
-	14514828 -> 14515052 [color="blue"]
+	12522980 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ animal| parent = 00000000| left = 00BF1618| right = 00BF18F0| location = 0}"];
+	12523036 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Human| parent = 00BF15E0| left = 00BF1650| right = 00BF16F8| location = 0}"];
+	12522980 -> 12523036 [color="blue"]
+	12523092 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Study Physics| parent = 00BF1618| left = 00BF1688| right = 00BF16C0| location = 0}"];
+	12523036 -> 12523092 [color="blue"]
+	12523148 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Ded| parent = 00BF1650| left = 00000000| right = 00000000| location = 0}"];
+	12523092 -> 12523148 [color="blue"]
+	12523204 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Ovchinkin| parent = 00BF1650| left = 00000000| right = 00000000| location = 1}"];
+	12523092 -> 12523204 [color="blue"]
+	12523260 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Phystech Student| parent = 00BF1618| left = 00BF1730| right = 00BF1768| location = 1}"];
+	12523036 -> 12523260 [color="blue"]
+	12523316 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Dobrynya Nikitich| parent = 00BF16F8| left = 00000000| right = 00000000| location = 0}"];
+	12523260 -> 12523316 [color="blue"]
+	12523372 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Live with Michael| parent = 00BF16F8| left = 00BF17A0| right = 00BF17D8| location = 1}"];
+	12523260 -> 12523372 [color="blue"]
+	12523428 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Loh| parent = 00BF1768| left = 00000000| right = 00000000| location = 0}"];
+	12523372 -> 12523428 [color="blue"]
+	12523484 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Drink alcohol| parent = 00BF1768| left = 00BF1810| right = 00BF18B8| location = 1}"];
+	12523372 -> 12523484 [color="blue"]
+	12523540 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Have girlfriend| parent = 00BF17D8| left = 00BF1848| right = 00BF1880| location = 0}"];
+	12523484 -> 12523540 [color="blue"]
+	12523596 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Tolia ZOV| parent = 00BF1810| left = 00000000| right = 00000000| location = 0}"];
+	12523540 -> 12523596 [color="blue"]
+	12523652 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Saneeeeek| parent = 00BF1810| left = 00000000| right = 00000000| location = 1}"];
+	12523540 -> 12523652 [color="blue"]
+	12523708 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Sanya Lavilas| parent = 00BF17D8| left = 00000000| right = 00000000| location = 1}"];
+	12523484 -> 12523708 [color="blue"]
+	12523764 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Furry| parent = 00BF15E0| left = 00BF1928| right = 00BF7A50| location = 1}"];
+	12522980 -> 12523764 [color="blue"]
+	12523820 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Hedgehog| parent = 00BF18F0| left = 00BF4A18| right = 00BF04B0| location = 0}"];
+	12523764 -> 12523820 [color="blue"]
+	12536348 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Ironclad| parent = 00BF1928| left = 00000000| right = 00000000| location = 0}"];
+	12523820 -> 12536348 [color="blue"]
+	12518580 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ From the fairytail| parent = 00BF1928| left = 00000000| right = 00000000| location = 1}"];
+	12523820 -> 12518580 [color="blue"]
+	12548692 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Cat| parent = 00BF18F0| left = 00BF7C48| right = 00BF7B68| location = 1}"];
+	12523764 -> 12548692 [color="blue"]
+	12549196 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Chipa| parent = 00BF7A50| left = 00000000| right = 00000000| location = 0}"];
+	12548692 -> 12549196 [color="blue"]
+	12548972 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Poltorashka| parent = 00BF7A50| left = 00000000| right = 00000000| location = 1}"];
+	12548692 -> 12548972 [color="blue"]
 	}

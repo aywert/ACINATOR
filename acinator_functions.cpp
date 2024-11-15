@@ -1,9 +1,11 @@
 #include"acinator_functions.h"
 
-//TODO comparison
 //TODO add elements
+//TODO comparison ?
+
 
 char NO[] = "NO";
+char EMPTY[] = "";
 static int read_acinator_data(FILE* file, str_node_t* prev_node);
 static int record_acinator_data(FILE* file, str_node_t* prev_node);
 static int generate_graph(str_node_t* node_ptr, FILE* file);
@@ -12,6 +14,7 @@ static int give_definition(str_node_t* root);
 static str_node_t* acinator_find_node(str_node_t* root, const char* buffer);
 static int find_free_cell(char* characteristic_array[]);
 static char** find_definition(str_node_t* found_node, char* characteristic_array[]);
+//static int request_new_node(str_node_t* node);
 
 str_node_t* start_reading_acinator_data(char argv[])
 {
@@ -38,10 +41,11 @@ int start_recording_acinator_data(char argv[], str_node_t* root)
     assert(argv);
     FILE* acinator_data = fopen(argv, "w");
     assert(acinator_data);
+
     fprintf(acinator_data,"{\n");
     fprintf(acinator_data, "\"%s\"\n", root->data);
     record_acinator_data(acinator_data, root);
-    //fprintf(acinator_data,"}\n");
+
     fclose(acinator_data);
 
     return 0;
@@ -219,7 +223,7 @@ int give_definition(str_node_t* root)
     string[index++] = 'i'; 
     string[index++] = 's';
     string[index++] = ' ';
-
+    int flag = 0;
     for (int i = acinator_str-1; i >= 0 ; i--)
         if(characteristic_array[i] != 0)
         {
@@ -228,6 +232,18 @@ int give_definition(str_node_t* root)
             {
                 string[index++] = characteristic_array[i][j++];
             }
+            if (flag)
+            {
+                if (i == 0) 
+                    string[index++] = '.'; 
+                else
+                    string[index++] = ',';
+                flag = 0;
+            }
+
+            if (j <= 2)
+                flag = 1;
+                
             string[index++] = ' ';
         }
 
@@ -245,7 +261,8 @@ static char** find_definition(str_node_t* found_node, char* characteristic_array
     
     if (found_node->location == 0)
         characteristic_array[find_free_cell(characteristic_array)] = NO;
-        
+    else 
+        characteristic_array[find_free_cell(characteristic_array)] = EMPTY;  
     find_definition(found_node->parent, characteristic_array);
     return characteristic_array;
 }
@@ -323,6 +340,11 @@ int start_acinator(str_node_t* root)
 
     return 0;
 }
+
+// static int request_new_node(str_node_t* node)
+// {
+
+// }
 
 int play_acinator(str_node_t* root)
 {
