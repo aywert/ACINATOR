@@ -1,0 +1,63 @@
+{
+    "animal"
+    {
+        "Human"
+        {
+            "Study Physics"
+            {
+                "Ded"
+            }
+            {
+                "Ovchinkin"
+            }
+        }
+        {
+            "Phystech Student"
+            {
+                "Dobrynya Nikitich"
+            }
+            {
+                "Live with Michael"
+                {
+                    "Loh"
+                }
+                {
+                    "Drink alcohol"
+                    {
+                        "Have girlfriend"
+                        {
+                            "Tolia ZOV"
+                        }
+                        {
+                            "Saneeeeek"
+                        }
+                    }
+                    {
+                        "Sanya Lavilas"
+                    }
+                }
+            }
+        }
+    }
+    {
+        "Furry"
+        {
+            "Hedgehog"
+            {
+                "Ironclad"
+            }
+            {
+                "From the fairytail"
+            }
+        }
+        {
+            "Cat"
+            {
+                "Chipa"
+            }
+            {
+                "Poltorashka"
+            }
+        }
+    }
+}

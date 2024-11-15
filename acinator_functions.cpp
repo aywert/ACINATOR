@@ -5,6 +5,7 @@
 
 char NO[] = "NO";
 static int read_acinator_data(FILE* file, str_node_t* prev_node);
+static int record_acinator_data(FILE* file, str_node_t* prev_node);
 static int generate_graph(str_node_t* node_ptr, FILE* file);
 static int print_acinator(const char* string, ACINATOR_PRINT_MODE mode);
 static int give_definition(str_node_t* root);
@@ -30,6 +31,42 @@ str_node_t* start_reading_acinator_data(char argv[])
 
     fclose(acinator_data);
     return root;
+}
+
+int start_recording_acinator_data(char argv[], str_node_t* root)
+{
+    assert(argv);
+    FILE* acinator_data = fopen(argv, "w");
+    assert(acinator_data);
+    fprintf(acinator_data,"{\n");
+    fprintf(acinator_data, "\"%s\"\n", root->data);
+    record_acinator_data(acinator_data, root);
+    //fprintf(acinator_data,"}\n");
+    fclose(acinator_data);
+
+    return 0;
+}
+
+static int record_acinator_data(FILE* file, str_node_t* root)
+{
+    if (root->left)
+    {
+        fprintf(file,"{\n");
+        fprintf(file, "\"%s\"\n", root->left->data);
+        record_acinator_data(file, root->left);
+    }
+
+    if (root->right)
+    {
+        fprintf(file,"{\n");
+        fprintf(file, "\"%s\"\n", root->right->data);
+        record_acinator_data(file, root->right);
+    }
+
+    dtor_node(root);    
+
+    fprintf(file,"}\n");
+    return 0;
 }
 
 static int read_acinator_data(FILE* file, str_node_t* prev_node)
@@ -160,7 +197,10 @@ int give_definition(str_node_t* root)
     
     str_node_t* found_node = acinator_find_node(root, buffer);
     if (!found_node)
+    {
         print_acinator("I ain't eating this shit. Mind \"\" or check the database", STATEMENT);
+        return 0;
+    }
     else
         printf("we found %s!\n", found_node->data);
     char** characteristic_array  = (char**)calloc(sizeof(str_node_t**), acinator_str);
