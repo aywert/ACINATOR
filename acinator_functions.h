@@ -20,6 +20,12 @@ enum ACINATOR_NODE_LOCATION
     ACINATOR_RIGHT = 1,
 };
 
+enum ACINATOR_RECORDING
+{
+    ACINATOR_NOT_RECORD = 0,
+    ACINATOR_RECORD     = 1,
+};
+
 struct str_node_t
 {
     str_node_t* parent;
@@ -34,8 +40,8 @@ str_node_t* str_ctor_node(const char* string);
 int dtor_node(str_node_t* node_ptr);
 str_node_t* start_reading_acinator_data(char argv[]);
 int start_recording_acinator_data(char argv[], str_node_t* root);
-int start_acinator(str_node_t*);
-int play_acinator(str_node_t* root);
+ACINATOR_RECORDING start_acinator(str_node_t*, char argv[]);
+ACINATOR_RECORDING play_acinator(str_node_t* root);
 int print_node_graph(str_node_t* node_ptr, char argv[]);
 
 #endif

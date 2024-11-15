@@ -5,12 +5,12 @@
 {
 "Study Physics"
 {
-"GAAAAYY"
+"GAAAAAY"
 {
 "Ded"
 }
 {
-"kwadrober"
+"Kwadrober"
 }
 }
 {

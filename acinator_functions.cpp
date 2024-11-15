@@ -1,6 +1,5 @@
 #include"acinator_functions.h"
 
-//TODO add elements
 //TODO comparison ?
 
 
@@ -14,7 +13,7 @@ static int give_definition(str_node_t* root);
 static str_node_t* acinator_find_node(str_node_t* root, const char* buffer);
 static int find_free_cell(char* characteristic_array[]);
 static char** find_definition(str_node_t* found_node, char* characteristic_array[]);
-static int request_new_node(str_node_t* node);
+static ACINATOR_RECORDING request_new_node(str_node_t* node);
 
 str_node_t* start_reading_acinator_data(char argv[])
 {
@@ -169,7 +168,7 @@ static int generate_graph(str_node_t* node_ptr, FILE* file)
     static int label = 0;
     
     fprintf(file, "%d [shape = Mrecord; style = filled; fillcolor=\"#FBEE21\"; color = \"#000000\"; fontcolor = \"#000000\"; label = \"{ %s| parent = %p| left = %p| right = %p| location = %d}\"];\n\t", (int)&node_ptr->data, node_ptr->data, node_ptr->parent, node_ptr->left, node_ptr->right, node_ptr->location);
-    if (label != 0)
+    if (node_ptr->parent != 0)
     {
         fprintf(file, "%d -> %d [color=\"blue\"]\n\t", label, (int)&node_ptr->data);
     }
@@ -306,7 +305,7 @@ static str_node_t* acinator_find_node(str_node_t* root, const char* buffer)
         return root;
 }
 
-int start_acinator(str_node_t* root)
+ACINATOR_RECORDING start_acinator(str_node_t* root, char argv[])
 {
     assert(root);
     printf(GREEN("=======================================\n"));
@@ -324,24 +323,30 @@ int start_acinator(str_node_t* root)
         if (strcmp(buffer, "No") == 0)
         {
             print_acinator("You never gonna know...", STATEMENT);
-            return 0;
+            return ACINATOR_NOT_RECORD;
         }
 
         if (strcmp(buffer, "Define") == 0)
         {
             print_acinator("WHAAT is it, pity man", QUESTION);
             give_definition(root);
-            return 0;
+            return ACINATOR_NOT_RECORD;
         }
 
     } while(strcmp(buffer, "Yes") != 0);
+    printf("heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeelp\n");
 
-    play_acinator(root);
+    if (play_acinator(root) == ACINATOR_RECORD)
+    {
+        printf("i ve been here\n");
+        start_recording_acinator_data(argv, root);
+        printf("and i even survived\n");
+    }
 
-    return 0;
+    return ACINATOR_NOT_RECORD;
 }
 
-static int request_new_node(str_node_t* node)
+static ACINATOR_RECORDING request_new_node(str_node_t* node)
 {
     print_acinator("What was it", QUESTION);
 
@@ -364,22 +369,48 @@ static int request_new_node(str_node_t* node)
     scanf("\"%[^\"]\"", new_question);
     
     str_node_t* new_question_node = str_ctor_node(new_question);
-    str_node_t* new_answer_node = str_ctor_node(new_answer);
+    str_node_t* new_answer_node   = str_ctor_node(new_answer);
 
     if (node->location == ACINATOR_RIGHT)
         node->parent->right = new_question_node;
     else
-        node->parent->left = new_question_node;
+        node->parent->left  = new_question_node;
 
-    new_question_node->right = new_answer_node;
-    new_question_node->left  = node;
+    new_question_node->parent   = node->parent;
+    new_question_node->right    = new_answer_node;
+    new_question_node->left     = node;
+    new_question_node->location = node->location;
 
-    print_acinator("Should i record changes", QUESTION);
+    new_answer_node->parent   = new_question_node;
+    new_answer_node->location = ACINATOR_RIGHT;
 
-    return 0;
+    node->parent   = new_question_node;
+    node->left     = 0;
+    node->right    = 0;
+    node->location = ACINATOR_LEFT;
+
+    print_acinator("Should i record changes", QUESTION);\
+    char buffer[acinator_str] = {};
+    do
+    {
+        printf("Enter Yes/No: ");
+        scanf("%s", &buffer[0]);
+        printf("%s", buffer);
+        if (strcmp(buffer, "No") == 0)
+        {
+            return ACINATOR_NOT_RECORD;
+        }
+
+        if (strcmp(buffer, "Yes") == 0)
+        {
+            printf("i am returning ACINATOR_RECORD");
+            return ACINATOR_RECORD;
+        }
+
+    } while(1);
 }
 
-int play_acinator(str_node_t* root)
+ACINATOR_RECORDING play_acinator(str_node_t* root)
 {
   assert(root);
   print_acinator(root->data, QUESTION);
@@ -392,12 +423,12 @@ int play_acinator(str_node_t* root)
     {
       if (root->left == 0)
       {
-        request_new_node(root);
-        printf("I stayedd alive\n");
-        //print_acinator("I don't what it could be... Would you help me", QUESTION);
-        return 0;
+        if(request_new_node(root) == ACINATOR_RECORD)
+            return ACINATOR_RECORD;
+        else
+            return ACINATOR_NOT_RECORD;
       }
-      play_acinator(root->left);
+      return play_acinator(root->left);
       break;
     }
 
@@ -405,23 +436,23 @@ int play_acinator(str_node_t* root)
     {
       if (root->right == 0)
       {
-        print_acinator("Game is on the stage of development. See ya...", STATEMENT);
-        return 0;
+        print_acinator("I know everything. Be afraid", STATEMENT);
+        return ACINATOR_NOT_RECORD;
       }
 
-      play_acinator(root->right);
+      return play_acinator(root->right);
       break;
     }
 
     if (strcmp(buffer, "Found") == 0)
     {
       print_acinator("I know everything. Be afraid", STATEMENT);
-      return 0;
+      return ACINATOR_NOT_RECORD;
     }
 
   } while(1);
 
-  return 0;
+  return ACINATOR_NOT_RECORD;
 }
 
 static int print_acinator(const char* string, ACINATOR_PRINT_MODE mode)
