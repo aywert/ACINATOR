@@ -29,11 +29,15 @@ int main(int argc, char* argv[])
     // node_3->left  = node_7; 
     // node_4->right = node_8;
     // node_4->left  = node_9;
-
+    // printf("char = %d\n", sizeof(char));
+    // printf("int = %d\n", sizeof(int));
+    // printf("int* = %d\n", sizeof(int*));
+    // printf("double = %d\n", sizeof(double));
+    // printf("double* = %d\n", sizeof(double*));
     str_node_t* root = start_reading_acinator_data(argv[argc-1]);
     print_node_graph(root, argv[argc-2]);
 
-    //start_acinator(root);
+    start_acinator(root);
     // print_node_graph(node_1, argv[argc-2]);
     return 0;
 }

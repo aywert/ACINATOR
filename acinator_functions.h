@@ -8,6 +8,12 @@
 
 const int acinator_str = 30;
 
+enum ACINATOR_PRINT_MODE
+{
+    QUESTION = 0,
+    STATEMENT = 1,
+};
+
 struct str_node_t
 {
     str_node_t* parent;
@@ -19,13 +25,9 @@ struct str_node_t
 
 str_node_t* str_ctor_node(const char* string);
 int dtor_node(str_node_t* node_ptr);
-int give_definition(str_node_t* root, const char* string);
-int print_acinator(const char* string);
 str_node_t* start_reading_acinator_data(char argv[]);
-int read_acinator_data(FILE* file, str_node_t* prev_node);
 int start_acinator(str_node_t*);
 int play_acinator(str_node_t* root);
 int print_node_graph(str_node_t* node_ptr, char argv[]);
-int generate_graph(str_node_t* node_ptr, FILE* file);
 
 #endif

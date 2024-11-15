@@ -1,63 +1,45 @@
 digraph list
 {
 rankdir=HR;
-	13440484 [shape="rectangle", style="rounded", color="blue", label = " animal?
- left = 00CD1618
- right = 00CD17A0"];
-	13440540 [shape="rectangle", style="rounded", color="blue", label = " Human?
- left = 00CD1650
- right = 00CD16F8"];
-	13440484 -> 13440540 [color="blue"]
-	13440596 [shape="rectangle", style="rounded", color="blue", label = " Study Physics?
- left = 00CD1688
- right = 00CD16C0"];
-	13440540 -> 13440596 [color="blue"]
-	13440652 [shape="rectangle", style="rounded", color="blue", label = " Ded?
- left = 00000000
- right = 00000000"];
-	13440596 -> 13440652 [color="blue"]
-	13440708 [shape="rectangle", style="rounded", color="blue", label = " Ovchinkin?
- left = 00000000
- right = 00000000"];
-	13440596 -> 13440708 [color="blue"]
-	13440764 [shape="rectangle", style="rounded", color="blue", label = " Phystech Student?
- left = 00CD1730
- right = 00CD1768"];
-	13440540 -> 13440764 [color="blue"]
-	13440820 [shape="rectangle", style="rounded", color="blue", label = " Dobrynya Nikitich?
- left = 00000000
- right = 00000000"];
-	13440764 -> 13440820 [color="blue"]
-	13440876 [shape="rectangle", style="rounded", color="blue", label = " Michael Aywert?
- left = 00000000
- right = 00000000"];
-	13440764 -> 13440876 [color="blue"]
-	13440932 [shape="rectangle", style="rounded", color="blue", label = " Furry?
- left = 00CD17D8
- right = 00CD1880"];
-	13440484 -> 13440932 [color="blue"]
-	13440988 [shape="rectangle", style="rounded", color="blue", label = " Hedgehog?
- left = 00CD1810
- right = 00CD1848"];
-	13440932 -> 13440988 [color="blue"]
-	13441044 [shape="rectangle", style="rounded", color="blue", label = " Ironclad?
- left = 00000000
- right = 00000000"];
-	13440988 -> 13441044 [color="blue"]
-	13441100 [shape="rectangle", style="rounded", color="blue", label = " From the fairytail?
- left = 00000000
- right = 00000000"];
-	13440988 -> 13441100 [color="blue"]
-	13441156 [shape="rectangle", style="rounded", color="blue", label = " Cat?
- left = 00CD18B8
- right = 00CD18F0"];
-	13440932 -> 13441156 [color="blue"]
-	13441212 [shape="rectangle", style="rounded", color="blue", label = " Chipa?
- left = 00000000
- right = 00000000"];
-	13441156 -> 13441212 [color="blue"]
-	13441268 [shape="rectangle", style="rounded", color="blue", label = " Poltorashka?
- left = 00000000
- right = 00000000"];
-	13441156 -> 13441268 [color="blue"]
+	9442788 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ animal| left = 00901618| right = 009018F0}"];
+	9442844 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Human| left = 00901650| right = 009016F8}"];
+	9442788 -> 9442844 [color="blue"]
+	9442900 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Study Physics| left = 00901688| right = 009016C0}"];
+	9442844 -> 9442900 [color="blue"]
+	9442956 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Ded| left = 00000000| right = 00000000}"];
+	9442900 -> 9442956 [color="blue"]
+	9443012 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Ovchinkin| left = 00000000| right = 00000000}"];
+	9442900 -> 9443012 [color="blue"]
+	9443068 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Phystech Student| left = 00901730| right = 00901768}"];
+	9442844 -> 9443068 [color="blue"]
+	9443124 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Dobrynya Nikitich| left = 00000000| right = 00000000}"];
+	9443068 -> 9443124 [color="blue"]
+	9443180 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Live with Michael| left = 009017A0| right = 009017D8}"];
+	9443068 -> 9443180 [color="blue"]
+	9443236 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Loh| left = 00000000| right = 00000000}"];
+	9443180 -> 9443236 [color="blue"]
+	9443292 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Drink alcohol| left = 00901810| right = 009018B8}"];
+	9443180 -> 9443292 [color="blue"]
+	9443348 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Have girlfriend| left = 00901848| right = 00901880}"];
+	9443292 -> 9443348 [color="blue"]
+	9443404 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Tolia ZOV| left = 00000000| right = 00000000}"];
+	9443348 -> 9443404 [color="blue"]
+	9443460 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Saneeeeek| left = 00000000| right = 00000000}"];
+	9443348 -> 9443460 [color="blue"]
+	9443516 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Sanya Lavilas| left = 00000000| right = 00000000}"];
+	9443292 -> 9443516 [color="blue"]
+	9443572 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Furry| left = 00901928| right = 00907C80}"];
+	9442788 -> 9443572 [color="blue"]
+	9443628 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Hedgehog| left = 00904A18| right = 009004B0}"];
+	9443572 -> 9443628 [color="blue"]
+	9456156 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Ironclad| left = 00000000| right = 00000000}"];
+	9443628 -> 9456156 [color="blue"]
+	9438388 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ From the fairytail| left = 00000000| right = 00000000}"];
+	9443628 -> 9438388 [color="blue"]
+	9469060 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Cat| left = 00907CF0| right = 009079E0}"];
+	9443572 -> 9469060 [color="blue"]
+	9469172 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Chipa| left = 00000000| right = 00000000}"];
+	9469060 -> 9469172 [color="blue"]
+	9468388 [shape = Mrecord; style = filled; fillcolor="#FBEE21"; color = "#000000"; fontcolor = "#000000"; label = "{ Poltorashka| left = 00000000| right = 00000000}"];
+	9469060 -> 9468388 [color="blue"]
 	}

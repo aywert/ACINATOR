@@ -1,44 +1,62 @@
 {
-    "animal?"
+    "animal"
     {
-        "Human?"
+        "Human"
         {
-            "Study Physics?"
+            "Study Physics"
             {
-                "Ded?"
+                "Ded"
             }
             {
-                "Ovchinkin?"
+                "Ovchinkin"
             }
         }
         {
-            "Phystech Student?"
+            "Phystech Student"
             {
-                "Dobrynya Nikitich?"
+                "Dobrynya Nikitich"
             }
             {
-                "Michael Aywert?"
+                "Live with Michael"
+                {
+                    "Loh"
+                }
+                {
+                    "Drink alcohol"
+                    {
+                        "Have girlfriend"
+                        {
+                            "Tolia ZOV"
+                        }
+                        {
+                            "Saneeeeek"
+                        }
+                    }
+                    {
+                        "Sanya Lavilas"
+                    }
+                }
             }
         }
     }
     {
-        "Furry?"
+        "Furry"
         {
-            "Hedgehog?"
+            "Hedgehog"
             {
-                "Ironclad?"
+                "Ironclad"
             }
             {
-                "From the fairytail?"
+                "From the fairytail"
             }
         }
         {
-            "Cat?"
+            "Cat"
             {
-                "Chipa?"
+                "Chipa"
             }
             {
-                "Poltorashka?"
+                "Poltorashka"
             }
         }
     }

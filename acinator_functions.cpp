@@ -2,6 +2,13 @@
 
 //TODO definition
 //TODO comparison
+//TODO add elements
+
+static int read_acinator_data(FILE* file, str_node_t* prev_node);
+static int generate_graph(str_node_t* node_ptr, FILE* file);
+static int print_acinator(const char* string, ACINATOR_PRINT_MODE mode);
+static int give_definition(str_node_t* root);
+static str_node_t* acinator_find_node(str_node_t* root, const char* buffer);
 
 str_node_t* start_reading_acinator_data(char argv[])
 {
@@ -23,7 +30,7 @@ str_node_t* start_reading_acinator_data(char argv[])
     return root;
 }
 
-int read_acinator_data(FILE* file, str_node_t* prev_node)
+static int read_acinator_data(FILE* file, str_node_t* prev_node)
 {
     char buffer[acinator_str] = {};
     int verifier = fscanf(file, "%s\n", buffer);
@@ -107,13 +114,13 @@ int print_node_graph(str_node_t* node_ptr, char argv[])
     return 0;
 }
 
-int generate_graph(str_node_t* node_ptr, FILE* file)
+static int generate_graph(str_node_t* node_ptr, FILE* file)
 {
     assert(node_ptr);
     assert(file);
     static int label = 0;
     
-    fprintf(file, "%d [shape=\"rectangle\", style=\"rounded\", color=\"blue\", label = \" %s\n left = %p\n right = %p\"];\n\t", (int)&node_ptr->data, node_ptr->data, node_ptr->left, node_ptr->right);
+    fprintf(file, "%d [shape = Mrecord; style = filled; fillcolor=\"#FBEE21\"; color = \"#000000\"; fontcolor = \"#000000\"; label = \"{ %s| left = %p| right = %p}\"];\n\t", (int)&node_ptr->data, node_ptr->data, node_ptr->left, node_ptr->right);
     if (label != 0)
     {
         fprintf(file, "%d -> %d [color=\"blue\"]\n\t", label, (int)&node_ptr->data);
@@ -134,11 +141,54 @@ int generate_graph(str_node_t* node_ptr, FILE* file)
     return 0;
 }
 
-int give_definition(str_node_t* root, const char* string)
+int give_definition(str_node_t* root)
 {
     assert(root);
-    assert(string);
+
+    printf("Enter a word to define in \"\": \n");
+
+    char buffer[acinator_str] = {};
+    while(getchar() != '\n');
+    scanf("\"%[^\"]\"", buffer);
+    
+    str_node_t* found_node = acinator_find_node(root, buffer);
+    if (!found_node)
+        print_acinator("I ain't eating this shit. Mind \"\" or check the database", STATEMENT);
+    
     return 0;
+}
+
+// static str_node_t* find_definition(str_node_t* root, const char* buffer)
+// {
+
+// }
+
+static str_node_t* acinator_find_node(str_node_t* root, const char* buffer)
+{
+    assert(buffer);
+    int decider = strcmp(buffer, root->data);
+    str_node_t* found_node = 0;
+
+    if (decider != 0)
+    {
+        if (root->left)
+        {
+            found_node = acinator_find_node(root->left, buffer);
+            if (found_node != 0)
+                return found_node;
+        }
+
+        if (root->right)
+        {
+            found_node = acinator_find_node(root->right, buffer);
+            if (found_node != 0)
+                return found_node;
+        }
+
+        return 0;
+    }
+    else
+        return root;
 }
 
 int start_acinator(str_node_t* root)
@@ -148,18 +198,27 @@ int start_acinator(str_node_t* root)
     printf(GREEN("ACINATOR is welcoming you!\n"));
     printf(GREEN("=======================================\n"));
 
-    print_acinator("I'm glad to meet you my friend. Wanna play?");
+    print_acinator("I'm glad to meet you, my friend. Wanna play", QUESTION);
     
     char buffer[acinator_str];
     do
     {
-        printf("Enter Yes/No: ");
+        printf("Enter Yes/No/Define: ");
         scanf("%s", &buffer[0]);
+
         if (strcmp(buffer, "No") == 0)
         {
-            print_acinator("You never gonna know...");
+            print_acinator("You never gonna know...", STATEMENT);
             return 0;
         }
+
+        if (strcmp(buffer, "Define") == 0)
+        {
+            print_acinator("WHAAT is it, pity man", QUESTION);
+            give_definition(root);
+            return 0;
+        }
+
     } while(strcmp(buffer, "Yes") != 0);
 
     play_acinator(root);
@@ -169,98 +228,106 @@ int start_acinator(str_node_t* root)
 
 int play_acinator(str_node_t* root)
 {
-    assert(root);
-    print_acinator(root->data);
-    char buffer[acinator_str];
-    do
+  assert(root);
+  print_acinator(root->data, QUESTION);
+  char buffer[acinator_str];
+  do
+  {
+    printf("Enter Yes/No/Found: ");
+    scanf("%s", &buffer[0]);
+    if (strcmp(buffer, "No") == 0)
     {
-        printf("Enter Yes/No/Found: ");
-        scanf("%s", &buffer[0]);
-        if (strcmp(buffer, "No") == 0)
-        {
-            if (root->left == 0)
-            {
-                print_acinator("Game is on the stage of development. See ya...");
-                return 0;
-            }
-            play_acinator(root->left);
-            break;
-        }
+      if (root->left == 0)
+      {
+          print_acinator("Game is on the stage of development. See ya...", STATEMENT);
+          return 0;
+      }
+      play_acinator(root->left);
+      break;
+    }
 
-        if (strcmp(buffer, "Yes") == 0)
-        {
-            if (root->right == 0)
-            {
-                print_acinator("Game is on the stage of development. See ya...");
-                return 0;
-            }
-            play_acinator(root->right);
-            break;
-        }
+    if (strcmp(buffer, "Yes") == 0)
+    {
+      if (root->right == 0)
+      {
+        print_acinator("Game is on the stage of development. See ya...", STATEMENT);
+        return 0;
+      }
 
-        if (strcmp(buffer, "Found") == 0)
-        {
-            print_acinator("I know everything. Be afraid");
-            return 0;
-        }
-    } while(1);
+      play_acinator(root->right);
+      break;
+    }
 
-    return 0;
+    if (strcmp(buffer, "Found") == 0)
+    {
+      print_acinator("I know everything. Be afraid", STATEMENT);
+      return 0;
+    }
+
+  } while(1);
+
+  return 0;
 }
 
-int print_acinator(const char* string)
+static int print_acinator(const char* string, ACINATOR_PRINT_MODE mode)
 {
     assert(string);
-    printf("                 " RED_BKG("   ")" \n"                                                                                                     
-                "                  " RED_BKG("   ")"\n"                                                                  
-                "                  " RED_BKG("     ")"\n"                         
-                "                    " RED_BKG("   ")WHITE_BKG("               ")"\n"                       
-                "                      " RED_BKG("  ")WHITE_BKG("                  ")".                   \n"                       
-                "                       " WHITE_BKG("                         ")"                  \n"                      
-                "                   :" WHITE_BKG("                   ")YELLOW_BKG("      ")WHITE_BKG("     ")"                \n"                     
-                "                 ." WHITE_BKG("                      ")YELLOW_BKG("    ")WHITE_BKG("       ")"                    \n"                     
-                "                 " WHITE_BKG("           ")WHITE_BKG("                      ")"\n"                     
-                "                 " WHITE_BKG("         ")AQUA_BKG("                       ")"\n"                   
-                "                 " WHITE_BKG("      ")YELLOW_BKG("|||||||||||||||||||||||")"            \n"                    
-                "                 " WHITE_BKG("   ")PALE_YELLOW_BKG("....")YELLOW_BKG_B("|")BLACK_BKG("\\______/")YELLOW_BKG("||||")BLACK_BKG("\\______/")YELLOW_BKG("||")"              %s\n"                   
-                "                 " WHITE_BKG("  ")YELLOW_BKG_B("::")PALE_YELLOW("==&:")YELLOW_BKG_B("|")WHITE_BKG("  ")BLACK_BKG("  ")YELLOW_BKG("----====.")WHITE_BKG("  ")BLACK_BKG("  ")YELLOW_BKG("|||")" \n"                  
-                "                  ." WHITE_BKG("  ")YELLOW_BKG_B(":-=")PALE_YELLOW(":")YELLOW_BKG_B("|")WHITE_BKG("    ")YELLOW_BKG("---| |==.")WHITE_BKG("    ")YELLOW_BKG("||")"   \n"                  
-                "                   ." WHITE_BKG("  ")YELLOW_BKG_B("-=")PALE_YELLOW("=-")YELLOW_BKG_R("''''''/  \\'''''''")YELLOW_BKG("|\\")"                    \n"                   
-                "                     .." YELLOW_BKG_B("||")PALE_YELLOW("--")YELLOW_BKG("||")BLACK_BKG("    ")YELLOW_BKG_R("*-*")BLACK_BKG("   ")YELLOW_BKG("|||||")"                   \n"                  
-                "                       " YELLOW_BKG_R("\\\\\\||")BLACK_BKG("   ")YELLOW_BKG_R("|_^^_|")BLACK_BKG("   ")YELLOW_BKG_R("||//")"                   \n"                 
-                "                        " YELLOW_BKG_R("\\\\||")BLACK_BKG("  ")YELLOW_BKG_R("|``")BLACK_BKG("  ")YELLOW_BKG_R("``|")BLACK_BKG("  ")YELLOW_BKG_R("||//")"                 \n  "                  
-                "                    " BLUE_BKG_V("\\\\\\_     ")YELLOW_BKG_R("\\||||||/")VIOLET_BKG_B(" //")"                      \n"                  
-                "                         " BLUE_BKG_V("\\\\_   /")YELLOW_BKG_R("\\---/")VIOLET_BKG_B("   ")"                      \n"                 
-                "                           " BLUE_BKG_V("\\__ ///")YELLOW_BKG_R("\\|/")VIOLET_BKG_B("   ")"      \n"                                    
-                "                      " BLUE_BKG_V("//=======--")YELLOW_BKG_B("==||\\==")VIOLET_BKG_B("---=====")"      \n"                  
-                "                    " BLUE_BKG_V("\\=/=/=/=/=/=-+")YELLOW_BKG_B("+++++++")VIOLET_BKG_B("---=====")"      \n"                
-                "               " BLUE_BKG_V("\\/=/=/=/=/=/=/=/=-+")YELLOW_BKG_B("++++++++")VIOLET_BKG_B("---=+=+=+=")"      \n"                 
-                "             " BLUE_BKG_V("\\/=/=/=/=/=/=/=/=/=/-+")YELLOW_BKG_B("+++++")VIOLET_BKG_B("---=+=+=+=+=+=")"      \n"               
-                "            " BLUE_BKG_V("\\/=/=|=|=|=|=|=|=|=/=/-+")YELLOW_BKG_B("++")VIOLET_BKG_B("---=+=+=+")YELLOW_BKG_B("||||")VIOLET_BKG_B("=+=*-..")"      \n"              
-                "            " BLUE_BKG_V("\\/=|=|=|=|=/=-=-=-=/=/-+--")VIOLET_BKG_B("-=+=+=+")YELLOW_BKG_B("||___||_")VIOLET_BKG_B("=+=*-..")"          \n"             
-                "            " BLUE_BKG_V("||=\\=|=|=|=\\=-=-=-=/=/-+")YELLOW_BKG_R("=+=+===_\\")YELLOW_BKG_B("||____||_")VIOLET_BKG_B("=+=*-..")"      \n"            
-                "            " BLUE_BKG_V("\\\\=\\=|=|=|=\\=\\=-=-=/=/-+--")VIOLET_BKG_B("-=")YELLOW_BKG_R("+\\=\\\\==_=_=\\\\")YELLOW_BKG_B("||_")VIOLET_BKG_B("=+=*-..")"      \n"           
-                "            " BLUE_BKG_V("\\\\=\\=\\=\\=\\=+=+=-=-=/=/")YELLOW_BKG_B("||||")VIOLET_BKG_B("-=+=+")YELLOW_BKG_R("\\\\==_=_=_=")YELLOW_BKG_B("||_")VIOLET_BKG_B("=+=*-..")"      \n"          
-                "               " BLUE_BKG_V("\\\\=\\===+=+=+=+/=/")YELLOW_BKG_B("||___||")BLUE_BKG_V("_")VIOLET_BKG_B("_=+")YELLOW_BKG_B("_||")YELLOW_BKG_R("_=_=")YELLOW_BKG_B("||_")VIOLET_BKG_B("=+=*-..")"      \n"         
-                "                 " BLUE_BKG_V("\\\\=\\===+=+/=/")YELLOW_BKG_B("||____")YELLOW_BKG_R("=+=+")VIOLET_BKG_B("__=+")YELLOW_BKG_B("_||")YELLOW_BKG_R("=>")YELLOW_BKG_B("||_")VIOLET_BKG_B("=+=*-..")" \n"        
-                "                 " BLUE_BKG_V("\\\\=\\==+=+=/=/")YELLOW_BKG_B("||___")YELLOW_BKG_R("=_=_=_=_=_=")YELLOW_BKG_R("//")YELLOW_BKG_B("||")VIOLET_BKG_B("=+=*-..")" \n"       
-                "                   " BLUE_BKG_V("\\\\=\\==+=+=/=/")YELLOW_BKG_B("||___")YELLOW_BKG_R("=/=//+")VIOLET_BKG_B("=+=")YELLOW_BKG_B("||")VIOLET_BKG_B("=+=*-..")" \n"     
-                "                       " BLUE_BKG_V("\\\\=\\==+=/=/")YELLOW_BKG_B("||_||")VIOLET_BKG_B("---=-==+=")VIOLET_BKG_B("=+=*-..")" \n"     
-                "                        " BLUE_BKG_V("\\\\=\\==+=/=/")YELLOW_BKG_B("||")VIOLET_BKG_B("---=-==+=")VIOLET_BKG_B("=+=*-..")" \n"    
-                "                        " BLUE_BKG_V("\\\\=\\==+=/=/+=/=/")VIOLET_BKG_B("--==+=")VIOLET_BKG_B("=+=*-..")" \n"   
-                "                          " BLUE_BKG_V("\\=\\==+=\\=\\+=\\=\\+\\=")VIOLET_BKG_B("--==+=+=")" \n"  
-                "                           " BLUE_BKG_V("\\=\\==+=\\=\\+=\\=\\+\\=+\\=")VIOLET_BKG_B("-=+=")" \n" 
-                "                             " VIOLET_BKG_B("-=")BLUE_BKG_V("\\=\\==+=\\=\\+=\\+\\=+\\=")" \n"
-                "                              " VIOLET_BKG_B("--==+=+")BLUE_BKG_V("\\=\\+=\\+=\\+\\=")" \n"      
-                "                                " VIOLET_BKG_B("--==+=--=-==+")BLUE_BKG_V("\\+\\=")" \n"       
-                "           " BLUE_BKG_V("\\+=++")"                  " VIOLET_BKG_B("-=+=--=-==+")BLUE_BKG_V("\\")" \n"         
-                "       " BLUE_BKG_V("\\+=\\+")"                        " BLUE_BKG_V("\\++=")VIOLET_BKG_B("-+-==+")" \n"          
-                "     " BLUE_BKG_V("\\+=\\+=\\+\\+")"                      " BLUE_BKG_V("\\++=\\==")VIOLET_BKG_B("-++")" \n"           
-                "      " BLUE_BKG_V("\\+=\\+=\\++\\+")" " BLUE_BKG_V("\\+=\\+=\\++=\\+")"    " VIOLET_BKG_B("=+-")BLUE_BKG_V("=\\=\\==+=")VIOLET_BKG_B("+")" \n"           
-                "                " BLUE_BKG_V("\\++=\\+==\\+=")VIOLET_BKG_B("+-==+--")BLUE_BKG_V("\\+=")VIOLET_BKG_B("=-+-=-=+")" \n"             
-                "                  " BLUE_BKG_V("\\++=\\+==\\+=\\++=\\+==\\+=\\+")" \n"              
-                "                     " VIOLET_BKG_B("+-==-")BLUE_BKG_V("\\+=\\+=\\++=\\+")" \n"               
-                "                          " BLUE_BKG_V("+=\\+==\\+=\\+")" \n", string               
-             );
+    char parametr = '\0'; 
+    if (mode == QUESTION)
+    {
+        parametr = '?';
+    }
+    printf(
+"                 " RED_BKG("   ")" \n"                                                                                                     
+"                  " RED_BKG("   ")"\n"                                                                  
+"                  " RED_BKG("     ")"\n"                         
+"                    " RED_BKG("   ")WHITE_BKG("               ")"\n"                       
+"                      " RED_BKG("  ")WHITE_BKG("                  ")".                   \n"                       
+"                       " WHITE_BKG("                         ")"                  \n"                      
+"                   :" WHITE_BKG("                   ")YELLOW_BKG("      ")WHITE_BKG("     ")"                \n"                     
+"                 ." WHITE_BKG("                      ")YELLOW_BKG("    ")WHITE_BKG("       ")"                    \n"                     
+"                 " WHITE_BKG("           ")WHITE_BKG("                      ")"\n"                     
+"                 " WHITE_BKG("         ")AQUA_BKG("                       ")"\n"                   
+"                 " WHITE_BKG("      ")YELLOW_BKG("|||||||||||||||||||||||")"            \n"                    
+"                 " WHITE_BKG("   ")PALE_YELLOW_BKG("....")YELLOW_BKG_B("|")BLACK_BKG("\\______/")YELLOW_BKG("||||")BLACK_BKG("\\______/")YELLOW_BKG("||")"              %s%c\n"                   
+"                 " WHITE_BKG("  ")YELLOW_BKG_B("::")PALE_YELLOW("==&:")YELLOW_BKG_B("|")WHITE_BKG("  ")BLACK_BKG("  ")YELLOW_BKG("----====.")WHITE_BKG("  ")BLACK_BKG("  ")YELLOW_BKG("|||")" \n"                  
+"                  ." WHITE_BKG("  ")YELLOW_BKG_B(":-=")PALE_YELLOW(":")YELLOW_BKG_B("|")WHITE_BKG("    ")YELLOW_BKG("---| |==.")WHITE_BKG("    ")YELLOW_BKG("||")"   \n"                  
+"                   ." WHITE_BKG("  ")YELLOW_BKG_B("-=")PALE_YELLOW("=-")YELLOW_BKG_R("''''''/  \\'''''''")YELLOW_BKG("|\\")"                    \n"                   
+"                     .." YELLOW_BKG_B("||")PALE_YELLOW("--")YELLOW_BKG("||")BLACK_BKG("    ")YELLOW_BKG_R("*-*")BLACK_BKG("   ")YELLOW_BKG("|||||")"                   \n"                  
+"                       " YELLOW_BKG_R("\\\\\\||")BLACK_BKG("   ")YELLOW_BKG_R("|_^^_|")BLACK_BKG("   ")YELLOW_BKG_R("||//")"                   \n"                 
+"                        " YELLOW_BKG_R("\\\\||")BLACK_BKG("  ")YELLOW_BKG_R("|``")BLACK_BKG("  ")YELLOW_BKG_R("``|")BLACK_BKG("  ")YELLOW_BKG_R("||//")"                 \n  "                  
+"                    " BLUE_BKG_V("\\\\\\_     ")YELLOW_BKG_R("\\||||||/")VIOLET_BKG_B(" //")"                      \n"                  
+"                         " BLUE_BKG_V("\\\\_   /")YELLOW_BKG_R("\\---/")VIOLET_BKG_B("   ")"                      \n"                 
+"                           " BLUE_BKG_V("\\__ ///")YELLOW_BKG_R("\\|/")VIOLET_BKG_B("   ")"      \n"                                    
+"                      " BLUE_BKG_V("//=======--")YELLOW_BKG_B("==||\\==")VIOLET_BKG_B("---=====")"      \n"                  
+"                    " BLUE_BKG_V("\\=/=/=/=/=/=-+")YELLOW_BKG_B("+++++++")VIOLET_BKG_B("---=====")"      \n"                
+"               " BLUE_BKG_V("\\/=/=/=/=/=/=/=/=-+")YELLOW_BKG_B("++++++++")VIOLET_BKG_B("---=+=+=+=")"      \n"                 
+"             " BLUE_BKG_V("\\/=/=/=/=/=/=/=/=/=/-+")YELLOW_BKG_B("+++++")VIOLET_BKG_B("---=+=+=+=+=+=")"      \n"               
+"            " BLUE_BKG_V("\\/=/=|=|=|=|=|=|=|=/=/-+")YELLOW_BKG_B("++")VIOLET_BKG_B("---=+=+=+")YELLOW_BKG_B("||||")VIOLET_BKG_B("=+=*-..")"      \n"              
+"            " BLUE_BKG_V("\\/=|=|=|=|=/=-=-=-=/=/-+--")VIOLET_BKG_B("-=+=+=+")YELLOW_BKG_B("||___||_")VIOLET_BKG_B("=+=*-..")"          \n"             
+"            " BLUE_BKG_V("||=\\=|=|=|=\\=-=-=-=/=/-+")YELLOW_BKG_R("=+=+===_\\")YELLOW_BKG_B("||____||_")VIOLET_BKG_B("=+=*-..")"      \n"            
+"            " BLUE_BKG_V("\\\\=\\=|=|=|=\\=\\=-=-=/=/-+--")VIOLET_BKG_B("-=")YELLOW_BKG_R("+\\=\\\\==_=_=\\\\")YELLOW_BKG_B("||_")VIOLET_BKG_B("=+=*-..")"      \n"           
+"            " BLUE_BKG_V("\\\\=\\=\\=\\=\\=+=+=-=-=/=/")YELLOW_BKG_B("||||")VIOLET_BKG_B("-=+=+")YELLOW_BKG_R("\\\\==_=_=_=")YELLOW_BKG_B("||_")VIOLET_BKG_B("=+=*-..")"      \n"          
+"               " BLUE_BKG_V("\\\\=\\===+=+=+=+/=/")YELLOW_BKG_B("||___||")BLUE_BKG_V("_")VIOLET_BKG_B("_=+")YELLOW_BKG_B("_||")YELLOW_BKG_R("_=_=")YELLOW_BKG_B("||_")VIOLET_BKG_B("=+=*-..")"      \n"         
+"                 " BLUE_BKG_V("\\\\=\\===+=+/=/")YELLOW_BKG_B("||____")YELLOW_BKG_R("=+=+")VIOLET_BKG_B("__=+")YELLOW_BKG_B("_||")YELLOW_BKG_R("=>")YELLOW_BKG_B("||_")VIOLET_BKG_B("=+=*-..")" \n"        
+"                 " BLUE_BKG_V("\\\\=\\==+=+=/=/")YELLOW_BKG_B("||___")YELLOW_BKG_R("=_=_=_=_=_=")YELLOW_BKG_R("//")YELLOW_BKG_B("||")VIOLET_BKG_B("=+=*-..")" \n"       
+"                   " BLUE_BKG_V("\\\\=\\==+=+=/=/")YELLOW_BKG_B("||___")YELLOW_BKG_R("=/=//+")VIOLET_BKG_B("=+=")YELLOW_BKG_B("||")VIOLET_BKG_B("=+=*-..")" \n"     
+"                       " BLUE_BKG_V("\\\\=\\==+=/=/")YELLOW_BKG_B("||_||")VIOLET_BKG_B("---=-==+=")VIOLET_BKG_B("=+=*-..")" \n"     
+"                        " BLUE_BKG_V("\\\\=\\==+=/=/")YELLOW_BKG_B("||")VIOLET_BKG_B("---=-==+=")VIOLET_BKG_B("=+=*-..")" \n"    
+"                        " BLUE_BKG_V("\\\\=\\==+=/=/+=/=/")VIOLET_BKG_B("--==+=")VIOLET_BKG_B("=+=*-..")" \n"   
+"                          " BLUE_BKG_V("\\=\\==+=\\=\\+=\\=\\+\\=")VIOLET_BKG_B("--==+=+=")" \n"  
+"                           " BLUE_BKG_V("\\=\\==+=\\=\\+=\\=\\+\\=+\\=")VIOLET_BKG_B("-=+=")" \n" 
+"                             " VIOLET_BKG_B("-=")BLUE_BKG_V("\\=\\==+=\\=\\+=\\+\\=+\\=")" \n"
+"                              " VIOLET_BKG_B("--==+=+")BLUE_BKG_V("\\=\\+=\\+=\\+\\=")" \n"      
+"                                " VIOLET_BKG_B("--==+=--=-==+")BLUE_BKG_V("\\+\\=")" \n"       
+"           " BLUE_BKG_V("\\+=++")"                  " VIOLET_BKG_B("-=+=--=-==+")BLUE_BKG_V("\\")" \n"         
+"       " BLUE_BKG_V("\\+=\\+")"                        " BLUE_BKG_V("\\++=")VIOLET_BKG_B("-+-==+")" \n"          
+"     " BLUE_BKG_V("\\+=\\+=\\+\\+")"                      " BLUE_BKG_V("\\++=\\==")VIOLET_BKG_B("-++")" \n"           
+"      " BLUE_BKG_V("\\+=\\+=\\++\\+")" " BLUE_BKG_V("\\+=\\+=\\++=\\+")"    " VIOLET_BKG_B("=+-")BLUE_BKG_V("=\\=\\==+=")VIOLET_BKG_B("+")" \n"           
+"                " BLUE_BKG_V("\\++=\\+==\\+=")VIOLET_BKG_B("+-==+--")BLUE_BKG_V("\\+=")VIOLET_BKG_B("=-+-=-=+")" \n"             
+"                  " BLUE_BKG_V("\\++=\\+==\\+=\\++=\\+==\\+=\\+")" \n"              
+"                     " VIOLET_BKG_B("+-==-")BLUE_BKG_V("\\+=\\+=\\++=\\+")" \n"               
+"                          " BLUE_BKG_V("+=\\+==\\+=\\+")" \n", string, parametr               
+);
     return 0;
 }
