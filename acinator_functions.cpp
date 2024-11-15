@@ -14,7 +14,7 @@ static int give_definition(str_node_t* root);
 static str_node_t* acinator_find_node(str_node_t* root, const char* buffer);
 static int find_free_cell(char* characteristic_array[]);
 static char** find_definition(str_node_t* found_node, char* characteristic_array[]);
-//static int request_new_node(str_node_t* node);
+static int request_new_node(str_node_t* node);
 
 str_node_t* start_reading_acinator_data(char argv[])
 {
@@ -341,10 +341,43 @@ int start_acinator(str_node_t* root)
     return 0;
 }
 
-// static int request_new_node(str_node_t* node)
-// {
+static int request_new_node(str_node_t* node)
+{
+    print_acinator("What was it", QUESTION);
 
-// }
+    printf("Please enter the name of it in \"\": ");
+    char new_answer[acinator_str] = {};
+
+    while(getchar()!='\n');
+    scanf("\"%[^\"]\"", new_answer);
+    
+    char string[acinator_str*2] = {};
+    char* string_1 = strcat(string, "What is the defference between ");
+    char* string_2 = strcat(string_1, node->data);
+    char* string_3 = strcat(string_2, " and ");
+    char* string_4 = strcat(string_3, new_answer);
+    print_acinator(string_4, QUESTION);
+
+    printf("Unlike %s, %s is(format\"\"): ", node->data, new_answer);
+    char new_question[acinator_str] = {};
+    while(getchar()!='\n');
+    scanf("\"%[^\"]\"", new_question);
+    
+    str_node_t* new_question_node = str_ctor_node(new_question);
+    str_node_t* new_answer_node = str_ctor_node(new_answer);
+
+    if (node->location == ACINATOR_RIGHT)
+        node->parent->right = new_question_node;
+    else
+        node->parent->left = new_question_node;
+
+    new_question_node->right = new_answer_node;
+    new_question_node->left  = node;
+
+    print_acinator("Should i record changes", QUESTION);
+
+    return 0;
+}
 
 int play_acinator(str_node_t* root)
 {
@@ -359,8 +392,10 @@ int play_acinator(str_node_t* root)
     {
       if (root->left == 0)
       {
-          print_acinator("Game is on the stage of development. See ya...", STATEMENT);
-          return 0;
+        request_new_node(root);
+        printf("I stayedd alive\n");
+        //print_acinator("I don't what it could be... Would you help me", QUESTION);
+        return 0;
       }
       play_acinator(root->left);
       break;

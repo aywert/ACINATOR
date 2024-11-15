@@ -8,6 +8,7 @@ int main(int argc, char* argv[])
 
     start_acinator(root);
 
-    start_recording_acinator_data(argv[argc-1], root);
+    //start_recording_acinator_data(argv[argc-1], root);
+    //print_node_graph(root, argv[argc-2]);
     return 0;
 }

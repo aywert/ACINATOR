@@ -14,6 +14,12 @@ enum ACINATOR_PRINT_MODE
     STATEMENT = 1,
 };
 
+enum ACINATOR_NODE_LOCATION
+{
+    ACINATOR_LEFT  = 0,
+    ACINATOR_RIGHT = 1,
+};
+
 struct str_node_t
 {
     str_node_t* parent;
