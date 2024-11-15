@@ -18,6 +18,7 @@ struct str_node_t
 {
     str_node_t* parent;
     char data[acinator_str];
+    int location;
     str_node_t* left;
     str_node_t* right;
 };

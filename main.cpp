@@ -34,6 +34,10 @@ int main(int argc, char* argv[])
     // printf("int* = %d\n", sizeof(int*));
     // printf("double = %d\n", sizeof(double));
     // printf("double* = %d\n", sizeof(double*));
+    // printf("long int* = %d\n", sizeof(long int));
+    // printf("long long int = %d\n", sizeof(long long int));
+    // printf("long double = %d\n", sizeof(long double));
+    // printf("short int = %d\n", sizeof(short int));
     str_node_t* root = start_reading_acinator_data(argv[argc-1]);
     print_node_graph(root, argv[argc-2]);
 

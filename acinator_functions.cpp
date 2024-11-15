@@ -1,14 +1,16 @@
 #include"acinator_functions.h"
 
-//TODO definition
 //TODO comparison
 //TODO add elements
 
+char NO[] = "NO";
 static int read_acinator_data(FILE* file, str_node_t* prev_node);
 static int generate_graph(str_node_t* node_ptr, FILE* file);
 static int print_acinator(const char* string, ACINATOR_PRINT_MODE mode);
 static int give_definition(str_node_t* root);
 static str_node_t* acinator_find_node(str_node_t* root, const char* buffer);
+static int find_free_cell(char* characteristic_array[]);
+static char** find_definition(str_node_t* found_node, char* characteristic_array[]);
 
 str_node_t* start_reading_acinator_data(char argv[])
 {
@@ -32,12 +34,16 @@ str_node_t* start_reading_acinator_data(char argv[])
 
 static int read_acinator_data(FILE* file, str_node_t* prev_node)
 {
+    assert(file);
+    
     char buffer[acinator_str] = {};
     int verifier = fscanf(file, "%s\n", buffer);
     printf("buffer = %s\n", buffer);
 
     if (verifier == EOF)
         return 0;
+
+    assert(prev_node);
 
     if (strcmp(buffer, "{") == 0)
     {
@@ -48,13 +54,15 @@ static int read_acinator_data(FILE* file, str_node_t* prev_node)
         if (prev_node->left == 0)
         {
             prev_node->left = root;
-            root->parent = prev_node;
+            root->parent   = prev_node;
+            root->location = 0; 
         }
 
         else if (prev_node->right == 0)
         {
             prev_node->right = root;
             root->parent = prev_node;
+            root->location = 1; 
         }
         
         else
@@ -63,7 +71,6 @@ static int read_acinator_data(FILE* file, str_node_t* prev_node)
             return 0;
         }
        
-
         read_acinator_data(file, root);
     }
 
@@ -120,7 +127,7 @@ static int generate_graph(str_node_t* node_ptr, FILE* file)
     assert(file);
     static int label = 0;
     
-    fprintf(file, "%d [shape = Mrecord; style = filled; fillcolor=\"#FBEE21\"; color = \"#000000\"; fontcolor = \"#000000\"; label = \"{ %s| left = %p| right = %p}\"];\n\t", (int)&node_ptr->data, node_ptr->data, node_ptr->left, node_ptr->right);
+    fprintf(file, "%d [shape = Mrecord; style = filled; fillcolor=\"#FBEE21\"; color = \"#000000\"; fontcolor = \"#000000\"; label = \"{ %s| parent = %p| left = %p| right = %p| location = %d}\"];\n\t", (int)&node_ptr->data, node_ptr->data, node_ptr->parent, node_ptr->left, node_ptr->right, node_ptr->location);
     if (label != 0)
     {
         fprintf(file, "%d -> %d [color=\"blue\"]\n\t", label, (int)&node_ptr->data);
@@ -154,14 +161,65 @@ int give_definition(str_node_t* root)
     str_node_t* found_node = acinator_find_node(root, buffer);
     if (!found_node)
         print_acinator("I ain't eating this shit. Mind \"\" or check the database", STATEMENT);
-    
+    else
+        printf("we found %s!\n", found_node->data);
+    char** characteristic_array  = (char**)calloc(sizeof(str_node_t**), acinator_str);
+
+    find_definition(found_node, characteristic_array);
+
+    char string[acinator_str*acinator_str] = {};
+    int index = 0;
+
+    while(found_node->data[index] != '\0')
+    {
+        string[index] = found_node->data[index];
+        index++;
+    }
+    string[index++] = ' '; 
+    string[index++] = 'i'; 
+    string[index++] = 's';
+    string[index++] = ' ';
+
+    for (int i = acinator_str-1; i >= 0 ; i--)
+        if(characteristic_array[i] != 0)
+        {
+            int j = 0;
+            while(characteristic_array[i][j] != '\0')
+            {
+                string[index++] = characteristic_array[i][j++];
+            }
+            string[index++] = ' ';
+        }
+
+    print_acinator(string, STATEMENT);
     return 0;
 }
 
-// static str_node_t* find_definition(str_node_t* root, const char* buffer)
-// {
+static char** find_definition(str_node_t* found_node, char* characteristic_array[])
+{
+    
+    if (found_node->parent == 0)
+        return 0;
+    characteristic_array[find_free_cell(characteristic_array)] = found_node->parent->data;
 
-// }
+    
+    if (found_node->location == 0)
+        characteristic_array[find_free_cell(characteristic_array)] = NO;
+        
+    find_definition(found_node->parent, characteristic_array);
+    return characteristic_array;
+}
+
+static int find_free_cell(char* characteristic_array[])
+{
+    for (int i = 0; i < acinator_str; i++)
+    {
+        if (characteristic_array[i] == NULL)
+            return i;
+    }
+
+    return 0;
+}
 
 static str_node_t* acinator_find_node(str_node_t* root, const char* buffer)
 {
