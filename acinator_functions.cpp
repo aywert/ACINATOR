@@ -14,6 +14,8 @@ static str_node_t* acinator_find_node(str_node_t* root, const char* buffer);
 static int find_free_cell(char* characteristic_array[]);
 static char** find_definition(str_node_t* found_node, char* characteristic_array[]);
 static ACINATOR_RECORDING request_new_node(str_node_t* node);
+static int start_recording_acinator_data(char argv[], str_node_t* root);
+static int compare_definition(str_node_t* root);
 
 str_node_t* start_reading_acinator_data(char argv[])
 {
@@ -35,7 +37,7 @@ str_node_t* start_reading_acinator_data(char argv[])
     return root;
 }
 
-int start_recording_acinator_data(char argv[], str_node_t* root)
+static int start_recording_acinator_data(char argv[], str_node_t* root)
 {
     assert(argv);
     FILE* acinator_data = fopen(argv, "w");
@@ -224,6 +226,7 @@ int give_definition(str_node_t* root)
     string[index++] = ' ';
     int flag = 0;
     for (int i = acinator_str-1; i >= 0 ; i--)
+    {
         if(characteristic_array[i] != 0)
         {
             int j = 0;
@@ -245,14 +248,17 @@ int give_definition(str_node_t* root)
                 
             string[index++] = ' ';
         }
-
+    }
+    free(characteristic_array); characteristic_array = NULL;
     print_acinator(string, STATEMENT);
     return 0;
 }
 
 static char** find_definition(str_node_t* found_node, char* characteristic_array[])
 {
-    
+    assert(found_node);
+    assert(characteristic_array);
+
     if (found_node->parent == 0)
         return 0;
     characteristic_array[find_free_cell(characteristic_array)] = found_node->parent->data;
@@ -308,16 +314,17 @@ static str_node_t* acinator_find_node(str_node_t* root, const char* buffer)
 ACINATOR_RECORDING start_acinator(str_node_t* root, char argv[])
 {
     assert(root);
+    assert(argv);
     printf(GREEN("=======================================\n"));
     printf(GREEN("ACINATOR is welcoming you!\n"));
     printf(GREEN("=======================================\n"));
 
     print_acinator("I'm glad to meet you, my friend. Wanna play", QUESTION);
     
-    char buffer[acinator_str];
+    char buffer[acinator_str] = {};
     do
     {
-        printf("Enter Yes/No/Define: ");
+        printf("Enter Yes/No/Define/Compare: ");
         scanf("%s", &buffer[0]);
 
         if (strcmp(buffer, "No") == 0)
@@ -333,21 +340,124 @@ ACINATOR_RECORDING start_acinator(str_node_t* root, char argv[])
             return ACINATOR_NOT_RECORD;
         }
 
+        if (strcmp(buffer, "Compare") == 0)
+        {
+            print_acinator("Ya struggling to distinguish what is hui what is banana", QUESTION);
+            compare_definition(root);
+            return ACINATOR_NOT_RECORD;
+        }
+
     } while(strcmp(buffer, "Yes") != 0);
-    printf("heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeelp\n");
 
     if (play_acinator(root) == ACINATOR_RECORD)
     {
-        printf("i ve been here\n");
         start_recording_acinator_data(argv, root);
-        printf("and i even survived\n");
     }
 
     return ACINATOR_NOT_RECORD;
 }
 
+static int compare_definition(str_node_t* root)
+{
+    assert(root);
+    char buffer_1[acinator_str] = {};
+    char buffer_2[acinator_str] = {};
+   
+    printf("Enter two items to compare in \"\":\n");
+
+    while(getchar() != '\n');
+    printf("First is: ");
+    scanf("\"%[^\"]\"", buffer_1);
+
+    while(getchar() != '\n');
+    printf("Second is: ");
+    scanf("\"%[^\"]\"", buffer_2);
+
+    //finding the charatiristic array for buffer_1
+
+    str_node_t* found_node_1 = acinator_find_node(root, buffer_1);
+    if (!found_node_1)
+    {
+        print_acinator("I ain't eating this shit. Mind \"\" or check the database", STATEMENT);
+        return 0;
+    }
+    else
+        printf("we found %s!\n", found_node_1->data);
+    char** characteristic_array_1  = (char**)calloc(sizeof(str_node_t**), acinator_str);
+
+    find_definition(found_node_1, characteristic_array_1);
+
+    //finding the charatiristic array for buffer_2
+    str_node_t* found_node_2 = acinator_find_node(root, buffer_2);
+    if (!found_node_2)
+    {
+        print_acinator("I ain't eating this shit. Mind \"\" or check the database", STATEMENT);
+        return 0;
+    }
+    else
+        printf("we found %s!\n", found_node_2->data);
+    char** characteristic_array_2  = (char**)calloc(sizeof(str_node_t**), acinator_str);
+
+    find_definition(found_node_2, characteristic_array_2);
+
+    // main body of the function
+    
+    char starting_string[acinator_str*10] = {};
+    char* string = strcat(starting_string, found_node_1->data);
+    string = strcat(string, " is like ");
+    string = strcat(string, found_node_2->data);
+    string = strcat(string, ", because they're both: ");
+
+    int index_1 = 0;
+    int index_2 = 0;
+    while(characteristic_array_1[acinator_str - 1 - index_1++] == 0);
+    while(characteristic_array_2[acinator_str - 1 - index_2++] == 0);
+
+    while ((acinator_str - index_1) != 0 && (acinator_str - index_2) != 0)
+    {
+        printf("first = %s\n", characteristic_array_1[acinator_str - index_1]);
+        printf("second = %s\n", characteristic_array_2[acinator_str - index_2]);
+        if (strcmp(characteristic_array_1[acinator_str - index_1], characteristic_array_2[acinator_str - index_2]) != 0)
+        {
+            // printf("first = %s\n", characteristic_array_1[acinator_str - index_1]);
+            // printf("second = %s\n", characteristic_array_2[acinator_str - index_2]);
+
+            string = strcat(string, "but ");
+            string = strcat(string, found_node_1->data);
+            string = strcat(string, " is ");
+            string = strcat(string, characteristic_array_1[acinator_str - index_1]);
+            string = strcat(string, " ");
+            string = strcat(string, characteristic_array_1[acinator_str - index_1 - 1]);
+            string = strcat(string, ", when ");
+            string = strcat(string, found_node_2->data);
+            string = strcat(string, " is ");
+            string = strcat(string, characteristic_array_2[acinator_str - index_2]);
+            string = strcat(string, " ");
+            string = strcat(string, characteristic_array_2[acinator_str - index_2 - 1]);
+           
+
+            print_acinator(string, STATEMENT);
+
+            return 0;
+        }
+
+        else 
+        {
+            string = strcat(string, characteristic_array_1[acinator_str - index_1]);
+            string = strcat(string, " ");
+            string = strcat(string, characteristic_array_1[acinator_str - index_1 - 1]);
+            string = strcat(string, ", ");
+            index_1 += 2;
+            index_2 += 2;
+        }
+    }
+
+    return 0;
+}
+
 static ACINATOR_RECORDING request_new_node(str_node_t* node)
 {
+    assert(node);
     print_acinator("What was it", QUESTION);
 
     printf("Please enter the name of it in \"\": ");
@@ -413,6 +523,7 @@ static ACINATOR_RECORDING request_new_node(str_node_t* node)
 ACINATOR_RECORDING play_acinator(str_node_t* root)
 {
   assert(root);
+
   print_acinator(root->data, QUESTION);
   char buffer[acinator_str];
   do
