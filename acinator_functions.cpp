@@ -16,6 +16,7 @@ static char** find_definition(str_node_t* found_node, char* characteristic_array
 static ACINATOR_RECORDING request_new_node(str_node_t* node);
 static int start_recording_acinator_data(char argv[], str_node_t* root);
 static int compare_definition(str_node_t* root);
+static int acinator_tree_dtor(str_node_t* root);
 
 str_node_t* start_reading_acinator_data(char argv[])
 {
@@ -25,11 +26,11 @@ str_node_t* start_reading_acinator_data(char argv[])
     assert(acinator_data);
 
     char buffer[acinator_str] = {};
-    //"\"%[^\"]"
+    
     fscanf(acinator_data, "%s\n", buffer);
-    printf("buffer = %s\n", buffer);
+    //printf("buffer = %s\n", buffer);
     fscanf(acinator_data, "\"%[^\"]\"", buffer);
-    printf("buffer = %s\n", buffer);
+    //printf("buffer = %s\n", buffer);
     str_node_t* root = str_ctor_node(buffer);
     read_acinator_data(acinator_data, root);
 
@@ -68,8 +69,6 @@ static int record_acinator_data(FILE* file, str_node_t* root)
         record_acinator_data(file, root->right);
     }
 
-    dtor_node(root);    
-
     fprintf(file,"}\n");
     return 0;
 }
@@ -80,7 +79,7 @@ static int read_acinator_data(FILE* file, str_node_t* prev_node)
     
     char buffer[acinator_str] = {};
     int verifier = fscanf(file, "%s\n", buffer);
-    printf("buffer = %s\n", buffer);
+    //printf("buffer = %s\n", buffer);
 
     if (verifier == EOF)
         return 0;
@@ -90,7 +89,7 @@ static int read_acinator_data(FILE* file, str_node_t* prev_node)
     if (strcmp(buffer, "{") == 0)
     {
         fscanf(file, "\"%[^\"]\"", buffer);
-        printf("buffer = %s\n", buffer);
+        //printf("buffer = %s\n", buffer);
         str_node_t* root = str_ctor_node(buffer);
 
         if (prev_node->left == 0)
@@ -140,6 +139,22 @@ str_node_t* str_ctor_node(const char* string)
     return tempor_ptr_node; 
 }
 
+static int acinator_tree_dtor(str_node_t* root)
+{
+    if (root->left)
+    {
+        acinator_tree_dtor(root->left);
+    }
+
+    if (root->right)
+    {
+        acinator_tree_dtor(root->left);
+    }
+
+    dtor_node(root); root = NULL;
+    return 0;
+}
+
 int dtor_node(str_node_t* node_ptr)
 {
     assert(node_ptr);
@@ -147,6 +162,8 @@ int dtor_node(str_node_t* node_ptr)
     node_ptr = NULL;
     return 0; 
 }
+
+
 
 int print_node_graph(str_node_t* node_ptr, char argv[])
 {
@@ -319,39 +336,42 @@ ACINATOR_RECORDING start_acinator(str_node_t* root, char argv[])
     printf(GREEN("ACINATOR is welcoming you!\n"));
     printf(GREEN("=======================================\n"));
 
-    print_acinator("I'm glad to meet you, my friend. Wanna play", QUESTION);
-    
-    char buffer[acinator_str] = {};
-    do
+    while(1) 
     {
-        printf("Enter Yes/No/Define/Compare: ");
-        scanf("%s", &buffer[0]);
+        print_acinator("I'm glad to meet you, my friend. Wanna play", QUESTION);
 
-        if (strcmp(buffer, "No") == 0)
+        char buffer[acinator_str] = {};
+        do
         {
-            print_acinator("You never gonna know...", STATEMENT);
-            return ACINATOR_NOT_RECORD;
+            printf("Enter Yes/No/Define/Compare: ");
+            scanf("%s", &buffer[0]);
+
+            if (strcmp(buffer, "No") == 0)
+            {
+                print_acinator("You never gonna know...", STATEMENT);
+                acinator_tree_dtor(root);
+                return ACINATOR_NOT_RECORD;
+            }
+
+            if (strcmp(buffer, "Define") == 0)
+            {
+                print_acinator("WHAAT is it, pity man", QUESTION);
+                give_definition(root);
+            }
+
+            if (strcmp(buffer, "Compare") == 0)
+            {
+                print_acinator("Again you with your stupid questions? What you've got this time", QUESTION);
+                compare_definition(root);
+            }
+
+        } while(strcmp(buffer, "Yes") != 0);
+
+        if (play_acinator(root) == ACINATOR_RECORD)
+        {
+            start_recording_acinator_data(argv, root);
         }
 
-        if (strcmp(buffer, "Define") == 0)
-        {
-            print_acinator("WHAAT is it, pity man", QUESTION);
-            give_definition(root);
-            return ACINATOR_NOT_RECORD;
-        }
-
-        if (strcmp(buffer, "Compare") == 0)
-        {
-            print_acinator("Ya struggling to distinguish what is hui what is banana", QUESTION);
-            compare_definition(root);
-            return ACINATOR_NOT_RECORD;
-        }
-
-    } while(strcmp(buffer, "Yes") != 0);
-
-    if (play_acinator(root) == ACINATOR_RECORD)
-    {
-        start_recording_acinator_data(argv, root);
     }
 
     return ACINATOR_NOT_RECORD;
@@ -419,9 +439,6 @@ static int compare_definition(str_node_t* root)
         printf("second = %s\n", characteristic_array_2[acinator_str - index_2]);
         if (strcmp(characteristic_array_1[acinator_str - index_1], characteristic_array_2[acinator_str - index_2]) != 0)
         {
-            // printf("first = %s\n", characteristic_array_1[acinator_str - index_1]);
-            // printf("second = %s\n", characteristic_array_2[acinator_str - index_2]);
-
             string = strcat(string, "but ");
             string = strcat(string, found_node_1->data);
             string = strcat(string, " is ");
@@ -513,7 +530,6 @@ static ACINATOR_RECORDING request_new_node(str_node_t* node)
 
         if (strcmp(buffer, "Yes") == 0)
         {
-            printf("i am returning ACINATOR_RECORD");
             return ACINATOR_RECORD;
         }
 

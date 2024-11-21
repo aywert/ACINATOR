@@ -7,7 +7,13 @@
 {
 "GAAAAAY"
 {
+"Study Math"
+{
 "Ded"
+}
+{
+"Naymov"
+}
 }
 {
 "Kwadrober"
