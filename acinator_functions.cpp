@@ -1,8 +1,5 @@
 #include"acinator_functions.h"
 
-//TODO comparison ?
-
-
 char NO[] = "NO";
 char EMPTY[] = "";
 static int read_acinator_data(FILE* file, str_node_t* prev_node);
@@ -55,6 +52,9 @@ static int start_recording_acinator_data(char argv[], str_node_t* root)
 
 static int record_acinator_data(FILE* file, str_node_t* root)
 {
+    assert(file);
+    assert(root);
+
     if (root->left)
     {
         fprintf(file,"{\n");
@@ -141,6 +141,8 @@ str_node_t* str_ctor_node(const char* string)
 
 static int acinator_tree_dtor(str_node_t* root)
 {
+    assert(root);
+
     if (root->left)
     {
         acinator_tree_dtor(root->left);
@@ -291,6 +293,7 @@ static char** find_definition(str_node_t* found_node, char* characteristic_array
 
 static int find_free_cell(char* characteristic_array[])
 {
+    assert(characteristic_array);
     for (int i = 0; i < acinator_str; i++)
     {
         if (characteristic_array[i] == NULL)
