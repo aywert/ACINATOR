@@ -1,10 +1,10 @@
 #ifndef ACINATOR
 #define ACINATOR
-#include"stdio.h"
-#include"stdlib.h"
+#include"stdio.h" // <>
+#include"stdlib.h" // cpp
 #include"assert.h"
 #include"string.h"
-#include"D:\STUDYC\My_labraries\colours.h"
+#include"D:\1_course\STUDYC\My_labraries\colours.h"
 
 const int acinator_str = 30;
 

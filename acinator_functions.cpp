@@ -76,6 +76,7 @@ static int record_acinator_data(FILE* file, str_node_t* root)
 static int read_acinator_data(FILE* file, str_node_t* prev_node)
 {
     assert(file);
+    // assert (prev_node);
     
     char buffer[acinator_str] = {};
     int verifier = fscanf(file, "%s\n", buffer);
@@ -90,25 +91,26 @@ static int read_acinator_data(FILE* file, str_node_t* prev_node)
     {
         fscanf(file, "\"%[^\"]\"", buffer);
         //printf("buffer = %s\n", buffer);
-        str_node_t* root = str_ctor_node(buffer);
+        str_node_t* root = str_ctor_node(buffer); // node / new_node
 
         if (prev_node->left == 0)
         {
             prev_node->left = root;
             root->parent   = prev_node;
-            root->location = 0; 
+            root->location = 0; // const
         }
 
         else if (prev_node->right == 0)
         {
             prev_node->right = root;
             root->parent = prev_node;
-            root->location = 1; 
+            root->location = 1; //const
         }
         
         else
         {
             printf(RED("Error in binary tree\n"));
+            //acinator_tree_dtor(root);
             return 0;
         }
        
@@ -126,14 +128,14 @@ static int read_acinator_data(FILE* file, str_node_t* prev_node)
 str_node_t* str_ctor_node(const char* string)
 {
     assert(string);
-    str_node_t* tempor_ptr_node = (str_node_t*)calloc(sizeof(str_node_t), 1);
+    str_node_t* tempor_ptr_node = (str_node_t*)calloc(1, sizeof(str_node_t));
     assert(tempor_ptr_node);
     for (int i = 0; i < acinator_str; i++)
     {
-        tempor_ptr_node->data[i] = string[i];
+        tempor_ptr_node->data[i] = string[i]; // strcpy
     }
 
-    tempor_ptr_node->right = 0;
+    tempor_ptr_node->right = 0; // null
     tempor_ptr_node->left  = 0;  
 
     return tempor_ptr_node; 
@@ -150,7 +152,7 @@ static int acinator_tree_dtor(str_node_t* root)
 
     if (root->right)
     {
-        acinator_tree_dtor(root->left);
+        acinator_tree_dtor(root->right);
     }
 
     dtor_node(root); root = NULL;
@@ -172,6 +174,7 @@ int print_node_graph(str_node_t* node_ptr, char argv[])
     assert(node_ptr);
     assert(argv);
     FILE* file = fopen(argv, "w");
+    // assert
     fprintf(file, "digraph list\n{\nrankdir=HR;\n\t");
 
     generate_graph(node_ptr, file);
@@ -186,23 +189,23 @@ static int generate_graph(str_node_t* node_ptr, FILE* file)
 {
     assert(node_ptr);
     assert(file);
-    static int label = 0;
+    static long long label = 0;
     
-    fprintf(file, "%d [shape = Mrecord; style = filled; fillcolor=\"#FBEE21\"; color = \"#000000\"; fontcolor = \"#000000\"; label = \"{ %s| parent = %p| left = %p| right = %p| location = %d}\"];\n\t", (int)&node_ptr->data, node_ptr->data, node_ptr->parent, node_ptr->left, node_ptr->right, node_ptr->location);
+    fprintf(file, "%lld [shape = Mrecord; style = filled; fillcolor=\"#FBEE21\"; color = \"#000000\"; fontcolor = \"#000000\"; label = \"{ %s| parent = %p| left = %p| right = %p| location = %d}\"];\n\t", (long long)(&node_ptr->data[0]), node_ptr->data, node_ptr->parent, node_ptr->left, node_ptr->right, node_ptr->location);
     if (node_ptr->parent != 0)
     {
-        fprintf(file, "%d -> %d [color=\"blue\"]\n\t", label, (int)&node_ptr->data);
+        fprintf(file, "%lld -> %lld [color=\"blue\"]\n\t", label, (long long)(&node_ptr->data[0]));
     }
 
     if (node_ptr->left)
     {
-        label = (int)&node_ptr->data;
+        label = (long long)(&node_ptr->data[0]);
         generate_graph(node_ptr->left, file);
     }
 
     if (node_ptr->right) 
     {
-        label = (int)&node_ptr->data;
+        label = (long long)(&node_ptr->data[0]);
         generate_graph(node_ptr->right, file);
     }
 
@@ -222,12 +225,14 @@ int give_definition(str_node_t* root)
     str_node_t* found_node = acinator_find_node(root, buffer);
     if (!found_node)
     {
-        print_acinator("I ain't eating this shit. Mind \"\" or check the database", STATEMENT);
+        print_acinator("I ain't eating this. Mind \"\" or check the database", STATEMENT);
         return 0;
     }
     else
         printf("we found %s!\n", found_node->data);
-    char** characteristic_array  = (char**)calloc(sizeof(str_node_t**), acinator_str);
+    
+    char** characteristic_array  = (char**)calloc(acinator_str, sizeof(str_node_t**));
+    // assert
 
     find_definition(found_node, characteristic_array);
 
@@ -239,11 +244,11 @@ int give_definition(str_node_t* root)
         string[index] = found_node->data[index];
         index++;
     }
-    string[index++] = ' '; 
+    string[index++] = ' '; // sprintf
     string[index++] = 'i'; 
     string[index++] = 's';
     string[index++] = ' ';
-    int flag = 0;
+    int flag = 0; // name
     for (int i = acinator_str-1; i >= 0 ; i--)
     {
         if(characteristic_array[i] != 0)
@@ -262,7 +267,7 @@ int give_definition(str_node_t* root)
                 flag = 0;
             }
 
-            if (j <= 2)
+            if (j <= 2) // sizeof
                 flag = 1;
                 
             string[index++] = ' ';
@@ -278,25 +283,27 @@ static char** find_definition(str_node_t* found_node, char* characteristic_array
     assert(found_node);
     assert(characteristic_array);
 
-    if (found_node->parent == 0)
+    if (found_node->parent == 0) // null
         return 0;
-    characteristic_array[find_free_cell(characteristic_array)] = found_node->parent->data;
 
+// one find_free_cell
+    characteristic_array[find_free_cell(characteristic_array)] = found_node->parent->data;
     
-    if (found_node->location == 0)
+    if (found_node->location == 0) // left
         characteristic_array[find_free_cell(characteristic_array)] = NO;
     else 
         characteristic_array[find_free_cell(characteristic_array)] = EMPTY;  
+
     find_definition(found_node->parent, characteristic_array);
     return characteristic_array;
 }
 
-static int find_free_cell(char* characteristic_array[])
+static int find_free_cell(char* characteristic_array[]) 
 {
     assert(characteristic_array);
     for (int i = 0; i < acinator_str; i++)
     {
-        if (characteristic_array[i] == NULL)
+        if (characteristic_array[i] == NULL) 
             return i;
     }
 
@@ -406,11 +413,14 @@ static int compare_definition(str_node_t* root)
     }
     else
         printf("we found %s!\n", found_node_1->data);
-    char** characteristic_array_1  = (char**)calloc(sizeof(str_node_t**), acinator_str);
+
+    char** characteristic_array_1  = (char**)calloc(acinator_str, sizeof(str_node_t**));
+    // assert
 
     find_definition(found_node_1, characteristic_array_1);
 
-    //finding the charatiristic array for buffer_2
+    //finding the charatiristic array for buffer_2 
+    // copypaste
     str_node_t* found_node_2 = acinator_find_node(root, buffer_2);
     if (!found_node_2)
     {
@@ -419,13 +429,15 @@ static int compare_definition(str_node_t* root)
     }
     else
         printf("we found %s!\n", found_node_2->data);
-    char** characteristic_array_2  = (char**)calloc(sizeof(str_node_t**), acinator_str);
+
+    char** characteristic_array_2  = (char**)calloc(acinator_str, sizeof(str_node_t**));
+    // assert
 
     find_definition(found_node_2, characteristic_array_2);
 
     // main body of the function
     
-    char starting_string[acinator_str*10] = {};
+    char starting_string[acinator_str*10] = {}; /// const
     char* string = strcat(starting_string, found_node_1->data);
     string = strcat(string, " is like ");
     string = strcat(string, found_node_2->data);
@@ -516,7 +528,7 @@ static ACINATOR_RECORDING request_new_node(str_node_t* node)
 
     node->parent   = new_question_node;
     node->left     = 0;
-    node->right    = 0;
+    node->right    = 0; // nuul
     node->location = ACINATOR_LEFT;
 
     print_acinator("Should i record changes", QUESTION);\
