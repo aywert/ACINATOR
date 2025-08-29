@@ -1,9 +1,9 @@
-Acinator is a great game, where were realised following features:
+Acinator is a great game, with following features:
 * Finding character user think about
-* Defining every character in the data base of acinator
-* Comparing two characters between each other
-* Adding hew characters in the data base in the case it turned out to be not in it
+* Any character in data base can be defined by acinator
+* Comparison between any two characters 
+* Adding hew characters to data base if not found.
 
 Everything and a little bit more you can find in this game!
 Good luck
-![alt text](image.png)
+![Acinator](image.png)
